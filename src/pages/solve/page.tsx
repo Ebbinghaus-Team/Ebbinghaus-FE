@@ -10,6 +10,16 @@ const SolvePage = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState<null | {
+    isCorrect: boolean;
+    explanation: string;
+    aiFeedback: string | null;
+    currentGate: 'GATE_1' | 'GATE_2' | 'GRADUATED' | null;
+    reviewCount: number | null;
+    nextReviewDate: string | null;
+    isFirstAttempt: boolean;
+    isReviewStateChanged: boolean;
+  }>(null);
 
   // 샘플 문제 데이터
   const question = {
@@ -29,6 +39,18 @@ const SolvePage = () => {
 
   const handleSubmit = () => {
     if (selectedAnswer !== null) {
+      const isCorrect = selectedAnswer === question.correctAnswer;
+      const mock = {
+        isCorrect,
+        explanation: question.explanation,
+        aiFeedback: null,
+        currentGate: isCorrect ? ('GATE_2' as const) : ('GATE_1' as const),
+        reviewCount: 1,
+        nextReviewDate: isCorrect ? '2025-01-31' : '2025-01-25',
+        isFirstAttempt: true,
+        isReviewStateChanged: true,
+      };
+      setSubmissionResult(mock);
       setShowResult(true);
     }
   };
@@ -63,7 +85,7 @@ const SolvePage = () => {
     handleGoBack();
   };
 
-  const isCorrect = selectedAnswer === question.correctAnswer;
+  const isCorrect = submissionResult?.isCorrect ?? selectedAnswer === question.correctAnswer;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -155,7 +177,18 @@ const SolvePage = () => {
             <div className="mb-6">
               <h3 className="text-lg font-medium text-gray-900 mb-3">해설</h3>
               <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-gray-700">{question.explanation}</p>
+                <p className="text-gray-700">
+                  {submissionResult?.explanation ?? question.explanation}
+                </p>
+                {submissionResult?.aiFeedback && (
+                  <p className="text-gray-700 mt-2">AI 피드백: {submissionResult.aiFeedback}</p>
+                )}
+                {submissionResult && (
+                  <div className="text-xs text-gray-500 mt-2">
+                    현재 관문: {submissionResult.currentGate ?? '-'} / 다음 복습일:{' '}
+                    {submissionResult.nextReviewDate ?? '-'}
+                  </div>
+                )}
               </div>
             </div>
 

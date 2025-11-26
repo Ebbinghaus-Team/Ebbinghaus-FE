@@ -20,7 +20,7 @@ export default function GroupsPage() {
       members: 8,
       questions: 45,
       lastActivity: '2시간 전',
-      code: 'TOEIC-8K9M'
+      code: 'A3K9XP2M'
     },
     {
       id: 2,
@@ -29,7 +29,7 @@ export default function GroupsPage() {
       members: 12,
       questions: 78,
       lastActivity: '1일 전',
-      code: 'CIVIL-3X7P'
+      code: '7BX4KL9Q'
     },
     {
       id: 3,
@@ -38,7 +38,7 @@ export default function GroupsPage() {
       members: 6,
       questions: 23,
       lastActivity: '3일 전',
-      code: 'COMP-5N2Q'
+      code: 'Q2LM9A7B'
     }
   ];
 

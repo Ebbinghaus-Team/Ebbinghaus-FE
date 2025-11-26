@@ -16,7 +16,7 @@ const GroupDetailPage = () => {
     totalQuestionSets: 12,
     unsolvedQuestionSets: 8,
     solvedQuestionSets: 4,
-    code: 'TOEIC-8K9M'
+    code: 'A3K9XP2M'
   };
 
   const members = [
