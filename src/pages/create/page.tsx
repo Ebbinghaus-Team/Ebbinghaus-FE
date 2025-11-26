@@ -10,11 +10,7 @@ import ShortAnswerSection from '../../components/create/short/ShortAnswerSection
 import EssaySection from '../../components/create/subjective/SubjectiveSection';
 import ExplanationField from '../../components/create/common/ExplanationField';
 import SaveActionBar from '../../components/create/common/SaveActionBar';
-import {
-  mapUiQuestionTypeToApi,
-  mapOxAnswerToBoolean,
-  parseKeywordsToArray,
-} from '../../utils/apiMappers';
+import { mapOxAnswerToBoolean, parseKeywordsToArray } from '../../utils/apiMappers';
 
 type ApiCreateProblemPayload = {
   problemType?: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
@@ -43,7 +39,7 @@ export default function CreatePage() {
   const [selectedPersonalStudy, setSelectedPersonalStudy] = useState<string>(() =>
     fromParam === 'personal' && studyIdParam ? studyIdParam : '',
   );
-  const [questionType, setQuestionType] = useState('');
+  const [questionType, setQuestionType] = useState<'' | 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE'>('');
   const [subject, setSubject] = useState('');
   const [question, setQuestion] = useState('');
   const [options, setOptions] = useState(['', '']);
@@ -70,9 +66,7 @@ export default function CreatePage() {
 
   const handleSave = () => {
     // API 스펙에 맞춘 payload 구성
-    const apiProblemType = questionType
-      ? mapUiQuestionTypeToApi(questionType as 'multiple' | 'ox' | 'short' | 'essay')
-      : undefined;
+    const apiProblemType = questionType || undefined;
 
     const payload: ApiCreateProblemPayload = {
       problemType: apiProblemType,
@@ -127,13 +121,13 @@ export default function CreatePage() {
     if (saveLocation === 'personal' && !selectedPersonalStudy) return false;
     if (saveLocation === 'group' && !selectedGroup) return false;
 
-    if (questionType === 'multiple') {
+    if (questionType === 'MCQ') {
       return options.every((opt) => opt.trim()) && !!correctAnswer;
-    } else if (questionType === 'ox') {
+    } else if (questionType === 'OX') {
       return oxAnswer === 'O' || oxAnswer === 'X';
-    } else if (questionType === 'short') {
+    } else if (questionType === 'SHORT') {
       return shortAnswer.trim().length > 0;
-    } else if (questionType === 'essay') {
+    } else if (questionType === 'SUBJECTIVE') {
       return keywords.trim().length > 0 && modelAnswer.trim().length > 0;
     }
     return false;
@@ -165,12 +159,7 @@ export default function CreatePage() {
 
           {/* 문제 유형 선택 - 저장 위치가 선택되었을 때만 표시 */}
           {hasTargetSelected && (
-            <QuestionTypeSection
-              questionType={questionType as '' | 'multiple' | 'ox' | 'short' | 'essay'}
-              setQuestionType={
-                setQuestionType as (v: 'multiple' | 'ox' | 'short' | 'essay') => void
-              }
-            />
+            <QuestionTypeSection questionType={questionType} setQuestionType={setQuestionType} />
           )}
 
           {!!questionType && (
@@ -178,7 +167,7 @@ export default function CreatePage() {
               <SubjectField subject={subject} setSubject={setSubject} />
               <QuestionField question={question} setQuestion={setQuestion} />
 
-              {questionType === 'multiple' && (
+              {questionType === 'MCQ' && (
                 <MultipleChoiceSection
                   options={options}
                   updateOption={updateOption}
@@ -189,18 +178,18 @@ export default function CreatePage() {
                 />
               )}
 
-              {questionType === 'ox' && (
+              {questionType === 'OX' && (
                 <OxAnswerSection
                   oxAnswer={oxAnswer}
                   setOxAnswer={setOxAnswer as (v: 'O' | 'X') => void}
                 />
               )}
 
-              {questionType === 'short' && (
+              {questionType === 'SHORT' && (
                 <ShortAnswerSection shortAnswer={shortAnswer} setShortAnswer={setShortAnswer} />
               )}
 
-              {questionType === 'essay' && (
+              {questionType === 'SUBJECTIVE' && (
                 <EssaySection
                   keywords={keywords}
                   setKeywords={setKeywords}

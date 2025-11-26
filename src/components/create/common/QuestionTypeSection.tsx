@@ -1,6 +1,6 @@
 type QuestionTypeSectionProps = {
-	questionType: '' | 'multiple' | 'ox' | 'short' | 'essay';
-	setQuestionType: (value: 'multiple' | 'ox' | 'short' | 'essay') => void;
+	questionType: '' | 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
+	setQuestionType: (value: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE') => void;
 };
 
 export default function QuestionTypeSection({
@@ -15,11 +15,11 @@ export default function QuestionTypeSection({
 			<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
 				<div
 					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
-						questionType === 'multiple' 
+						questionType === 'MCQ' 
 							? 'border-blue-500 bg-blue-50' 
 							: 'border-gray-200 hover:border-gray-300'
 					}`}
-					onClick={() => setQuestionType('multiple')}
+					onClick={() => setQuestionType('MCQ')}
 				>
 					<div className="text-center">
 						<i className="ri-list-check text-3xl text-blue-600 mb-2"></i>
@@ -29,11 +29,11 @@ export default function QuestionTypeSection({
 
 				<div
 					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
-						questionType === 'ox' 
+						questionType === 'OX' 
 							? 'border-blue-500 bg-blue-50' 
 							: 'border-gray-200 hover:border-gray-300'
 					}`}
-					onClick={() => setQuestionType('ox')}
+					onClick={() => setQuestionType('OX')}
 				>
 					<div className="text-center">
 						<i className="ri-checkbox-circle-line text-3xl text-blue-600 mb-2"></i>
@@ -43,11 +43,11 @@ export default function QuestionTypeSection({
 
 				<div
 					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
-						questionType === 'short' 
+						questionType === 'SHORT' 
 							? 'border-blue-500 bg-blue-50' 
 							: 'border-gray-200 hover:border-gray-300'
 					}`}
-					onClick={() => setQuestionType('short')}
+					onClick={() => setQuestionType('SHORT')}
 				>
 					<div className="text-center">
 						<i className="ri-text text-3xl text-blue-600 mb-2"></i>
@@ -57,11 +57,11 @@ export default function QuestionTypeSection({
 
 				<div
 					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
-						questionType === 'essay' 
+						questionType === 'SUBJECTIVE' 
 							? 'border-blue-500 bg-blue-50' 
 							: 'border-gray-200 hover:border-gray-300'
 					}`}
-					onClick={() => setQuestionType('essay')}
+					onClick={() => setQuestionType('SUBJECTIVE')}
 				>
 					<div className="text-center">
 						<i className="ri-edit-line text-3xl text-blue-600 mb-2"></i>
