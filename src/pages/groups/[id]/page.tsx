@@ -189,7 +189,6 @@ const GroupDetailPage = () => {
 
   const handleAddToReview = () => {
     // 개인 복습 문제셋에 추가하는 로직
-    console.log('복습 문제셋에 추가:', selectedQuestion);
     setShowReviewModal(false);
     setSelectedQuestion(null);
   };

@@ -86,7 +86,7 @@ export default function CreatePage() {
       payload.keywords = parseKeywordsToArray(keywords);
     }
 
-    console.log('API 문제 생성 payload:', payload);
+    // TODO: API 연동 시 payload 전송
 
     // 저장 후 해당 위치로 이동
     if (saveLocation === 'group' && selectedGroup) {

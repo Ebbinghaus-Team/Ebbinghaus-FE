@@ -58,7 +58,6 @@ const PersonalStudyPage = () => {
   const handleCreateRoom = () => {
     if (roomName.trim()) {
       // 공부방 생성 로직
-      console.log('공부방 생성:', { roomName, roomDescription });
       setShowCreateModal(false);
       setRoomName('');
       setRoomDescription('');

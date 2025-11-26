@@ -45,7 +45,6 @@ export default function GroupsPage() {
   const handleJoinGroup = () => {
     if (joinCode.trim()) {
       // 그룹 참여 로직
-      console.log('그룹 참여:', joinCode);
       setShowJoinModal(false);
       setJoinCode('');
     }
@@ -54,7 +53,6 @@ export default function GroupsPage() {
   const handleCreateGroup = () => {
     if (groupName.trim()) {
       // 그룹 생성 로직
-      console.log('그룹 생성:', { groupName, groupDescription });
       setShowCreateModal(false);
       setGroupName('');
       setGroupDescription('');

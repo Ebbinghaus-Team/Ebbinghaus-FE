@@ -9,7 +9,6 @@ const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // 로그인 로직 구현
-    console.log('Login attempt:', { email, password });
   };
 
   return (
