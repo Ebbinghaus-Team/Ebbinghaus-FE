@@ -34,8 +34,6 @@ export async function createPersonalStudyRoom(
   return data as CreatePersonalStudyRoomResponse;
 }
 
-// 그룹 스터디 생성 API
-// Endpoint: POST /api/study-rooms/group
 export async function createGroupStudyRoom(
   body: CreateGroupStudyRoomBody,
 ): Promise<CreateGroupStudyRoomResponse> {
