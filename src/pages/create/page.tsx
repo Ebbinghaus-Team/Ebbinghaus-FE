@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SaveLocationSection from '../../components/create/common/SaveLocationSection';
 import QuestionTypeSection from '../../components/create/common/QuestionTypeSection';
 import SubjectField from '../../components/create/common/SubjectField';
 import QuestionField from '../../components/create/common/QuestionField';
-import MultipleChoiceSection from '../../components/create/multiple/MultipleChoiceSection';
+import MultipleChoiceSection from '../../components/create/mcq/MultipleChoiceSection';
 import OxAnswerSection from '../../components/create/ox/OxAnswerSection';
 import ShortAnswerSection from '../../components/create/short/ShortAnswerSection';
-import EssaySection from '../../components/create/essay/EssaySection';
+import EssaySection from '../../components/create/subjective/SubjectiveSection';
 import ExplanationField from '../../components/create/common/ExplanationField';
 import SaveActionBar from '../../components/create/common/SaveActionBar';
 import {
@@ -16,12 +16,33 @@ import {
   parseKeywordsToArray,
 } from '../../utils/apiMappers';
 
+type ApiCreateProblemPayload = {
+  problemType?: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
+  question?: string;
+  explanation?: string;
+  choices?: string[];
+  correctChoiceIndex?: number;
+  answerBoolean?: boolean;
+  answerText?: string;
+  modelAnswerText?: string;
+  keywords?: string[];
+};
+
 export default function CreatePage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [saveLocation, setSaveLocation] = useState('');
-  const [selectedGroup, setSelectedGroup] = useState('');
-  const [selectedPersonalStudy, setSelectedPersonalStudy] = useState('');
+  const fromParam = searchParams.get('from');
+  const studyIdParam = searchParams.get('studyId');
+  const groupIdParam = searchParams.get('groupId');
+  const [saveLocation, setSaveLocation] = useState<'' | 'personal' | 'group'>(() =>
+    fromParam === 'personal' ? 'personal' : fromParam === 'group' ? 'group' : '',
+  );
+  const [selectedGroup, setSelectedGroup] = useState<string>(() =>
+    fromParam === 'group' && groupIdParam ? groupIdParam : '',
+  );
+  const [selectedPersonalStudy, setSelectedPersonalStudy] = useState<string>(() =>
+    fromParam === 'personal' && studyIdParam ? studyIdParam : '',
+  );
   const [questionType, setQuestionType] = useState('');
   const [subject, setSubject] = useState('');
   const [question, setQuestion] = useState('');
@@ -45,20 +66,7 @@ export default function CreatePage() {
     { id: 3, name: '역사 연표 암기', questions: 67 },
   ];
 
-  // 쿼리 파라미터로 전달된 경우 자동 설정
-  useEffect(() => {
-    const from = searchParams.get('from');
-    const studyId = searchParams.get('studyId');
-    const groupId = searchParams.get('groupId');
-
-    if (from === 'personal' && studyId) {
-      setSaveLocation('personal');
-      setSelectedPersonalStudy(studyId);
-    } else if (from === 'group' && groupId) {
-      setSaveLocation('group');
-      setSelectedGroup(groupId);
-    }
-  }, [searchParams]);
+  // 쿼리 파라미터는 초기 상태로만 반영 (렌더 내 파생), 이후 사용자가 변경 가능
 
   const handleSave = () => {
     // API 스펙에 맞춘 payload 구성
@@ -66,7 +74,7 @@ export default function CreatePage() {
       ? mapUiQuestionTypeToApi(questionType as 'multiple' | 'ox' | 'short' | 'essay')
       : undefined;
 
-    const payload: any = {
+    const payload: ApiCreateProblemPayload = {
       problemType: apiProblemType,
       question,
       explanation,
