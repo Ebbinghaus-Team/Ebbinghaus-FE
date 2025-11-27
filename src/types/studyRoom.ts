@@ -55,3 +55,18 @@ export type PersonalStudyProblemsResponse = {
   problems: ProblemSummary[];
   totalCount: number;
 };
+
+export type PersonalStudyRoom = {
+  studyRoomId: number;
+  name: string;
+  category: string;
+  description: string;
+  totalProblems: number;
+  graduatedProblems: number;
+  createdAt: string;
+};
+
+export type PersonalStudyRoomsResponse = {
+  rooms: PersonalStudyRoom[];
+  totalCount: number;
+};
