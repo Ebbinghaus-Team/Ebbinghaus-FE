@@ -5,6 +5,7 @@ import {
   createGroupStudyRoom,
   getPersonalStudyRoomProblems,
   getPersonalStudyRooms,
+  getGroupStudyRooms,
 } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
@@ -14,6 +15,7 @@ import type {
   CreateGroupStudyRoomResponse,
   PersonalStudyProblemsResponse,
   PersonalStudyRoomsResponse,
+  GroupStudyRoomsResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
@@ -33,14 +35,21 @@ export const useCreatePersonalStudyRoomMutation = () => {
   });
 };
 
-export const useCreateGroupStudyRoomMutation = () =>
-  useMutation<CreateGroupStudyRoomResponse, ApiError, CreateGroupStudyRoomBody>({
+export const useCreateGroupStudyRoomMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<CreateGroupStudyRoomResponse, ApiError, CreateGroupStudyRoomBody>({
     mutationFn: (createGroupStudyRoomBody) => createGroupStudyRoom(createGroupStudyRoomBody),
     onSuccess: () => {
       toast.success('그룹 스터디가 생성되었습니다.');
+
+      queryClient.invalidateQueries({
+        queryKey: ['study-rooms', 'group'],
+      });
     },
     onError: showApiErrorToast,
   });
+};
 
 export const usePersonalStudyRoomProblemsQuery = (studyRoomId: number) =>
   useQuery<PersonalStudyProblemsResponse, ApiError>({
@@ -52,5 +61,12 @@ export const usePersonalStudyRoomsQuery = () =>
   useQuery<PersonalStudyRoomsResponse, ApiError>({
     queryKey: ['study-rooms', 'personal'],
     queryFn: getPersonalStudyRooms,
+    staleTime: Infinity,
+  });
+
+export const useGroupStudyRoomsQuery = () =>
+  useQuery<GroupStudyRoomsResponse, ApiError>({
+    queryKey: ['study-rooms', 'group'],
+    queryFn: getGroupStudyRooms,
     staleTime: Infinity,
   });
