@@ -33,6 +33,11 @@ export type CreateProblemBody =
   | SHORTProblemBody
   | SUBJECTIVEProblemBody;
 
+export type CreateProblemVariables = {
+  studyRoomId: number;
+  createProblemBody: CreateProblemBody;
+};
+
 export type CreateProblemResponse = {
   problemId: number;
   studyRoomId: number;
@@ -43,6 +48,11 @@ export type CreateProblemResponse = {
 
 export type SubmitProblemBody = {
   answer: string;
+};
+
+export type SubmitProblemVariables = {
+  problemId: number;
+  submitProblemBody: SubmitProblemBody;
 };
 
 export type SubmitProblemResponse = {
