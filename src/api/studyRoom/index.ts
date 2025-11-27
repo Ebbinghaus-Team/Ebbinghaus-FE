@@ -9,6 +9,7 @@ import type {
   GroupStudyRoomsResponse,
   JoinGroupStudyRoomBody,
   JoinGroupStudyRoomResponse,
+  GroupStudyRoomProblemsResponse,
 } from '../../types/studyRoom';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -151,4 +152,27 @@ export async function joinGroupStudyRoom(
   }
 
   return data as JoinGroupStudyRoomResponse;
+}
+
+export async function getGroupStudyRoomProblems(
+  studyRoomId: number,
+): Promise<GroupStudyRoomProblemsResponse> {
+  const res = await fetch(`${BASE_URL}/study-rooms/group/${studyRoomId}/problems`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const error: ApiError = {
+      status: res.status,
+      title: data?.title ?? '그룹 스터디룸 문제 조회 오류',
+      detail: data?.detail ?? '그룹 스터디룸 문제를 조회하는 중 오류가 발생했습니다.',
+      instance: data?.instance ?? `/api/study-rooms/group/${studyRoomId}/problems`,
+    };
+    throw error;
+  }
+
+  return data as GroupStudyRoomProblemsResponse;
 }
