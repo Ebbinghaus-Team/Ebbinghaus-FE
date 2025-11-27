@@ -29,3 +29,8 @@ export type ReviewInclusionResponse = {
   includeInReview: boolean;
   message: string;
 };
+
+export type ReviewInclusionVariables = {
+  problemId: number;
+  reviewInclusionBody: ReviewInclusionBody;
+};
