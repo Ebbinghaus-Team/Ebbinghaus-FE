@@ -50,6 +50,11 @@ export type SubmitProblemBody = {
   answer: string;
 };
 
+export type SubmitProblemVariables = {
+  problemId: number;
+  submitProblemBody: SubmitProblemBody;
+};
+
 export type SubmitProblemResponse = {
   isCorrect: boolean;
   explanation: string;
