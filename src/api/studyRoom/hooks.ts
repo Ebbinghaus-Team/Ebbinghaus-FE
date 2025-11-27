@@ -1,6 +1,11 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createPersonalStudyRoom, createGroupStudyRoom, getPersonalStudyRoomProblems } from '.';
+import {
+  createPersonalStudyRoom,
+  createGroupStudyRoom,
+  getPersonalStudyRoomProblems,
+  getPersonalStudyRooms,
+} from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
   CreatePersonalStudyRoomBody,
@@ -8,18 +13,25 @@ import type {
   CreateGroupStudyRoomBody,
   CreateGroupStudyRoomResponse,
   PersonalStudyProblemsResponse,
+  PersonalStudyRoomsResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
-export const useCreatePersonalStudyRoomMutation = () =>
-  useMutation<CreatePersonalStudyRoomResponse, ApiError, CreatePersonalStudyRoomBody>({
+export const useCreatePersonalStudyRoomMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<CreatePersonalStudyRoomResponse, ApiError, CreatePersonalStudyRoomBody>({
     mutationFn: (createPersonalStudyRoomBody) =>
       createPersonalStudyRoom(createPersonalStudyRoomBody),
     onSuccess: () => {
       toast.success('개인 공부방이 생성되었습니다.');
+      queryClient.invalidateQueries({
+        queryKey: ['study-rooms', 'personal'],
+      });
     },
     onError: showApiErrorToast,
   });
+};
 
 export const useCreateGroupStudyRoomMutation = () =>
   useMutation<CreateGroupStudyRoomResponse, ApiError, CreateGroupStudyRoomBody>({
@@ -32,6 +44,13 @@ export const useCreateGroupStudyRoomMutation = () =>
 
 export const usePersonalStudyRoomProblemsQuery = (studyRoomId: number) =>
   useQuery<PersonalStudyProblemsResponse, ApiError>({
-    queryKey: ['personal', studyRoomId, 'problems'],
+    queryKey: ['problems', studyRoomId, 'personal'],
     queryFn: () => getPersonalStudyRoomProblems(studyRoomId),
+  });
+
+export const usePersonalStudyRoomsQuery = () =>
+  useQuery<PersonalStudyRoomsResponse, ApiError>({
+    queryKey: ['study-rooms', 'personal'],
+    queryFn: getPersonalStudyRooms,
+    staleTime: Infinity,
   });
