@@ -39,9 +39,19 @@ export type ProblemSummary = {
   reviewCount: number;
 };
 
+export type PersonalStudyRoomDashboard = {
+  totalCount: number;
+  completedCount: number;
+  incompletedCount: number;
+  progressRate: number;
+};
+
 export type PersonalStudyProblemsResponse = {
   studyRoomId: number;
   studyRoomName: string;
+  studyRoomCategory: string;
+  studyRoomDescription: string;
+  dashboard: PersonalStudyRoomDashboard;
   problems: ProblemSummary[];
   totalCount: number;
 };
