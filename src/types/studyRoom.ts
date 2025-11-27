@@ -99,3 +99,31 @@ export type JoinGroupStudyRoomResponse = {
   description: string;
   joinedAt: string;
 };
+
+export type GroupStudyRoomDashboard = {
+  totalCount: number;
+  reviewingCount: number;
+  unreviewedCount: number;
+};
+
+export type GroupStudyRoomProblem = {
+  problemId: number;
+  question: string;
+  problemType: ProblemType;
+  reviewGate: string;
+  createdAt: string;
+  lastReviewedAt: string | null;
+  reviewCount: number;
+  isMyProblem: boolean;
+  creatorName: string;
+};
+export interface GroupStudyRoomProblemsResponse {
+  studyRoomId: number;
+  studyRoomName: string;
+  studyRoomCategory: string;
+  studyRoomDescription: string;
+  joinCode: string;
+  dashboard: GroupStudyRoomDashboard;
+  problems: GroupStudyRoomProblem[];
+  totalCount: number;
+}
