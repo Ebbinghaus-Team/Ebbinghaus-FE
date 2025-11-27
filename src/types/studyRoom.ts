@@ -70,3 +70,20 @@ export type PersonalStudyRoomsResponse = {
   rooms: PersonalStudyRoom[];
   totalCount: number;
 };
+
+export type GroupStudyRoom = {
+  studyRoomId: number;
+  name: string;
+  category: string;
+  description: string;
+  joinCode: string;
+  totalProblems: number;
+  graduatedProblems: number;
+  memberCount: number;
+  joinedAt: string;
+};
+
+export type GroupStudyRoomListResponse = {
+  rooms: GroupStudyRoom[];
+  totalCount: number;
+};
