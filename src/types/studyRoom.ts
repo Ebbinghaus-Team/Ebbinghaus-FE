@@ -117,7 +117,8 @@ export type GroupStudyRoomProblem = {
   isMyProblem: boolean;
   creatorName: string;
 };
-export interface GroupStudyRoomProblemsResponse {
+
+export type GroupStudyRoomProblemsResponse = {
   studyRoomId: number;
   studyRoomName: string;
   studyRoomCategory: string;
@@ -126,7 +127,7 @@ export interface GroupStudyRoomProblemsResponse {
   dashboard: GroupStudyRoomDashboard;
   problems: GroupStudyRoomProblem[];
   totalCount: number;
-}
+};
 
 export type GroupStudyRoomMember = {
   userId: number;
