@@ -1,12 +1,13 @@
-import { useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { createPersonalStudyRoom, createGroupStudyRoom } from '.';
+import { createPersonalStudyRoom, createGroupStudyRoom, getPersonalStudyRoomProblems } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
   CreatePersonalStudyRoomBody,
   CreatePersonalStudyRoomResponse,
   CreateGroupStudyRoomBody,
   CreateGroupStudyRoomResponse,
+  PersonalStudyProblemsResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
@@ -27,4 +28,10 @@ export const useCreateGroupStudyRoomMutation = () =>
       toast.success('그룹 스터디가 생성되었습니다.');
     },
     onError: showApiErrorToast,
+  });
+
+export const usePersonalStudyRoomProblemsQuery = (studyRoomId: number) =>
+  useQuery<PersonalStudyProblemsResponse, ApiError>({
+    queryKey: ['personal', studyRoomId, 'problems'],
+    queryFn: () => getPersonalStudyRoomProblems(studyRoomId),
   });
