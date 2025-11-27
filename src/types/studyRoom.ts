@@ -46,7 +46,7 @@ export type PersonalStudyRoomDashboard = {
   progressRate: number;
 };
 
-export type PersonalStudyProblemsResponse = {
+export type PersonalStudyRoomProblemsResponse = {
   studyRoomId: number;
   studyRoomName: string;
   studyRoomCategory: string;

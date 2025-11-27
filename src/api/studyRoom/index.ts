@@ -4,7 +4,7 @@ import type {
   CreatePersonalStudyRoomResponse,
   CreateGroupStudyRoomBody,
   CreateGroupStudyRoomResponse,
-  PersonalStudyProblemsResponse,
+  PersonalStudyRoomProblemsResponse,
   PersonalStudyRoomsResponse,
   GroupStudyRoomsResponse,
   JoinGroupStudyRoomBody,
@@ -67,7 +67,7 @@ export async function createGroupStudyRoom(
 
 export async function getPersonalStudyRoomProblems(
   studyRoomId: number,
-): Promise<PersonalStudyProblemsResponse> {
+): Promise<PersonalStudyRoomProblemsResponse> {
   const res = await fetch(`${BASE_URL}/study-rooms/personal/${studyRoomId}/problems`, {
     method: 'GET',
     credentials: 'include',
@@ -85,7 +85,7 @@ export async function getPersonalStudyRoomProblems(
     throw error;
   }
 
-  return data as PersonalStudyProblemsResponse;
+  return data as PersonalStudyRoomProblemsResponse;
 }
 
 export async function getPersonalStudyRooms(): Promise<PersonalStudyRoomsResponse> {

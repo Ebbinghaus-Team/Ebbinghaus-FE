@@ -7,6 +7,7 @@ import {
   getPersonalStudyRooms,
   getGroupStudyRooms,
   joinGroupStudyRoom,
+  getGroupStudyRoomProblems,
 } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
@@ -14,11 +15,12 @@ import type {
   CreatePersonalStudyRoomResponse,
   CreateGroupStudyRoomBody,
   CreateGroupStudyRoomResponse,
-  PersonalStudyProblemsResponse,
+  PersonalStudyRoomProblemsResponse,
   PersonalStudyRoomsResponse,
   GroupStudyRoomsResponse,
   JoinGroupStudyRoomBody,
   JoinGroupStudyRoomResponse,
+  GroupStudyRoomProblemsResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
@@ -55,9 +57,15 @@ export const useCreateGroupStudyRoomMutation = () => {
 };
 
 export const usePersonalStudyRoomProblemsQuery = (studyRoomId: number) =>
-  useQuery<PersonalStudyProblemsResponse, ApiError>({
-    queryKey: ['problems', studyRoomId, 'personal'],
+  useQuery<PersonalStudyRoomProblemsResponse, ApiError>({
+    queryKey: ['personal-study-room', studyRoomId, 'problems'],
     queryFn: () => getPersonalStudyRoomProblems(studyRoomId),
+  });
+
+export const useGroupStudyRoomProblemsQuery = (studyRoomId: number) =>
+  useQuery<GroupStudyRoomProblemsResponse, ApiError>({
+    queryKey: ['group-study-room', studyRoomId, 'problems'],
+    queryFn: () => getGroupStudyRoomProblems(studyRoomId),
   });
 
 export const usePersonalStudyRoomsQuery = () =>
