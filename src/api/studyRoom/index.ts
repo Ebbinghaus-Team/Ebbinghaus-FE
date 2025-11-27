@@ -5,6 +5,7 @@ import type {
   CreateGroupStudyRoomBody,
   CreateGroupStudyRoomResponse,
   PersonalStudyProblemsResponse,
+  PersonalStudyRoomsResponse,
 } from '../../types/studyRoom';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -80,4 +81,25 @@ export async function getPersonalStudyRoomProblems(
   }
 
   return data as PersonalStudyProblemsResponse;
+}
+
+export async function getPersonalStudyRooms(): Promise<PersonalStudyRoomsResponse> {
+  const res = await fetch(`${BASE_URL}/study-rooms/personal`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    const error: ApiError = {
+      status: res.status,
+      title: data?.title ?? '개인 공부방 조회 오류',
+      detail: data?.detail ?? '개인 공부방을 조회하는 중 오류가 발생했습니다.',
+      instance: data?.instance ?? `/api/study-rooms/personal`,
+    };
+    throw error;
+  }
+
+  return data as PersonalStudyRoomsResponse;
 }
