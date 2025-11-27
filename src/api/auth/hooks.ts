@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
-import { signup } from '.';
+import { signup, login } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
-import type { SignupBody, SignupResponse } from '../../types/auth';
+import type { SignupBody, SignupResponse, LoginBody, LoginResponse } from '../../types/auth';
 import type { ApiError } from '../../types/common';
 
 export const useSignupMutation = () =>
@@ -10,6 +10,15 @@ export const useSignupMutation = () =>
     mutationFn: (signupBody) => signup(signupBody),
     onSuccess: () => {
       toast.success('회원가입 되었습니다.');
+    },
+    onError: showApiErrorToast,
+  });
+
+export const useLoginMutation = () =>
+  useMutation<LoginResponse, ApiError, LoginBody>({
+    mutationFn: (loginBody) => login(loginBody),
+    onSuccess: () => {
+      toast.success('로그인 되었습니다.');
     },
     onError: showApiErrorToast,
   });
