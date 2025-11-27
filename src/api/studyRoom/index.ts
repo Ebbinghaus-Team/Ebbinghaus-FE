@@ -191,8 +191,8 @@ export async function getGroupStudyRoomMembers(
   if (!res.ok) {
     const error: ApiError = {
       status: res.status,
-      title: data?.title ?? '그룹 스터디룸 맴버 조회 오류',
-      detail: data?.detail ?? '그룹 스터디룸 맴버를 조회하는 중 오류가 발생했습니다.',
+      title: data?.title ?? '그룹 스터디룸 멤버 조회 오류',
+      detail: data?.detail ?? '그룹 스터디룸 멤버를 조회하는 중 오류가 발생했습니다.',
       instance: data?.instance ?? `/api/study-rooms/group/${studyRoomId}/members`,
     };
     throw error;
