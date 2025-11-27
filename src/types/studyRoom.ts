@@ -83,7 +83,7 @@ export type GroupStudyRoom = {
   joinedAt: string;
 };
 
-export type GroupStudyRoomListResponse = {
+export type GroupStudyRoomsResponse = {
   rooms: GroupStudyRoom[];
   totalCount: number;
 };
