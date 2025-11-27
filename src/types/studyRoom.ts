@@ -25,6 +25,7 @@ export type CreateGroupStudyRoomResponse = {
   name: string;
   category: string;
   description: string;
+  joinCode: string;
   createdAt: string;
 };
 
