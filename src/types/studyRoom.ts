@@ -127,3 +127,16 @@ export interface GroupStudyRoomProblemsResponse {
   problems: GroupStudyRoomProblem[];
   totalCount: number;
 }
+
+export type GroupStudyRoomMember = {
+  userId: number;
+  username: string;
+  isOwner: boolean;
+};
+
+export type GroupStudyRoomMembersResponse = {
+  studyRoomId: number;
+  studyRoomName: string;
+  totalMembers: number;
+  members: GroupStudyRoomMember[];
+};
