@@ -87,3 +87,15 @@ export type GroupStudyRoomListResponse = {
   rooms: GroupStudyRoom[];
   totalCount: number;
 };
+
+export type JoinGroupStudyRoomBody = {
+  joinCode: string;
+};
+
+export type JoinGroupStudyRoomResponse = {
+  studyRoomId: number;
+  name: string;
+  category: string;
+  description: string;
+  joinedAt: string;
+};
