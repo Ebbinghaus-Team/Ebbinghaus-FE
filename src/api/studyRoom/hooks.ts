@@ -8,6 +8,7 @@ import {
   getGroupStudyRooms,
   joinGroupStudyRoom,
   getGroupStudyRoomProblems,
+  getGroupStudyRoomMembers,
 } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
@@ -21,6 +22,7 @@ import type {
   JoinGroupStudyRoomBody,
   JoinGroupStudyRoomResponse,
   GroupStudyRoomProblemsResponse,
+  GroupStudyRoomMembersResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
@@ -97,3 +99,9 @@ export const useJoinGroupStudyRoomMutation = () => {
     onError: showApiErrorToast,
   });
 };
+
+export const useGroupStudyRoomMembersQuery = (studyRoomId: number) =>
+  useQuery<GroupStudyRoomMembersResponse, ApiError>({
+    queryKey: ['group-study-room', studyRoomId, 'members'],
+    queryFn: () => getGroupStudyRoomMembers(studyRoomId),
+  });
