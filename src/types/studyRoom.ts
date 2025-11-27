@@ -29,7 +29,7 @@ export type CreateGroupStudyRoomResponse = {
   createdAt: string;
 };
 
-export type ProblemSummary = {
+export type PersonalStudyRoomProblem = {
   problemId: number;
   question: string;
   problemType: ProblemType;
@@ -52,7 +52,7 @@ export type PersonalStudyProblemsResponse = {
   studyRoomCategory: string;
   studyRoomDescription: string;
   dashboard: PersonalStudyRoomDashboard;
-  problems: ProblemSummary[];
+  problems: PersonalStudyRoomProblem[];
   totalCount: number;
 };
 
