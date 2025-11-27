@@ -6,6 +6,7 @@ import {
   getPersonalStudyRoomProblems,
   getPersonalStudyRooms,
   getGroupStudyRooms,
+  joinGroupStudyRoom,
 } from '.';
 import { showApiErrorToast } from '../../utils/api/showApiErrorToast';
 import type {
@@ -16,6 +17,8 @@ import type {
   PersonalStudyProblemsResponse,
   PersonalStudyRoomsResponse,
   GroupStudyRoomsResponse,
+  JoinGroupStudyRoomBody,
+  JoinGroupStudyRoomResponse,
 } from '../../types/studyRoom';
 import type { ApiError } from '../../types/common';
 
@@ -70,3 +73,19 @@ export const useGroupStudyRoomsQuery = () =>
     queryFn: getGroupStudyRooms,
     staleTime: Infinity,
   });
+
+export const useJoinGroupStudyRoomMutation = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<JoinGroupStudyRoomResponse, ApiError, JoinGroupStudyRoomBody>({
+    mutationFn: (joinGroupStudyRoomBody) => joinGroupStudyRoom(joinGroupStudyRoomBody),
+    onSuccess: () => {
+      toast.success('그룹 스터디 참여에 성공하였습니다.');
+
+      queryClient.invalidateQueries({
+        queryKey: ['study-rooms', 'group'],
+      });
+    },
+    onError: showApiErrorToast,
+  });
+};
