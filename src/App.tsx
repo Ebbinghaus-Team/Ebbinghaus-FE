@@ -3,8 +3,14 @@ import { Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import RootLayout from './layouts/RootLayout';
+import { defaultQueryRetry } from './utils/query/defaultQueryRetry';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: { retry: defaultQueryRetry, refetchOnWindowFocus: false },
+    mutations: { retry: defaultQueryRetry },
+  },
+});
 
 const HomePage = lazy(() => import('./pages/home/page'));
 const CreatePage = lazy(() => import('./pages/create/page'));
