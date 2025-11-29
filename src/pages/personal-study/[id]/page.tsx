@@ -10,13 +10,15 @@ const PersonalStudyDetailPage = () => {
   // API 스펙(/api/study-rooms/personal/{id}/problems) 형태의 더미 데이터
   const studyRoomInfo = {
     studyRoomId: Number(id) || 1,
-    studyRoomName: '수학 - 미적분학',
-    description: '미적분학 기본 개념과 응용 문제',
-    subject: '수학',
-    totalQuestions: 25,
-    completedQuestions: 18,
-    remainingQuestions: 7,
-    progress: 72,
+    studyRoomName: '자바',
+    studyRoomCategory: '프로그래밍',
+    studyRoomDescription: '자바를 마스터해 봅시다',
+    dashboard: {
+      totalCount: 3,
+      completedCount: 1,
+      incompletedCount: 2,
+      progressRate: 33.3,
+    },
   };
 
   type ProblemItem = {
@@ -33,48 +35,30 @@ const PersonalStudyDetailPage = () => {
     () => [
       {
         problemId: 1,
-        question: '극한의 정의와 성질',
+        question: '자바의 특징을 3가지 설명하시오',
         problemType: 'SUBJECTIVE',
-        reviewGate: 'GATE_2',
-        createdAt: '2024-01-10',
-        lastReviewedAt: '2024-01-14',
-        reviewCount: 2,
+        reviewGate: 'GATE_1',
+        createdAt: '2025-01-17T10:00:00',
+        lastReviewedAt: '2025-01-18T14:30:00',
+        reviewCount: 1,
       },
       {
         problemId: 2,
-        question: '미분의 기본 공식',
+        question: '다음 중 접근 제어자가 아닌 것은?',
         problemType: 'MCQ',
-        reviewGate: 'GRADUATED',
-        createdAt: '2024-01-11',
-        lastReviewedAt: '2024-01-15',
-        reviewCount: 3,
+        reviewGate: 'GATE_2',
+        createdAt: '2025-01-15T09:20:00',
+        lastReviewedAt: '2025-01-18T10:15:00',
+        reviewCount: 2,
       },
       {
         problemId: 3,
-        question: '연쇄법칙 응용 문제',
+        question: '객체지향 프로그래밍의 4대 특징은?',
         problemType: 'SHORT',
-        reviewGate: 'GATE_1',
-        createdAt: '2024-01-12',
-        lastReviewedAt: '2024-01-13',
-        reviewCount: 1,
-      },
-      {
-        problemId: 4,
-        question: '적분의 기본 정리',
-        problemType: 'OX',
-        reviewGate: 'GATE_1',
-        createdAt: '2024-01-13',
-        lastReviewedAt: '2024-01-14',
-        reviewCount: 1,
-      },
-      {
-        problemId: 5,
-        question: '부분적분 계산',
-        problemType: 'SUBJECTIVE',
-        reviewGate: 'GATE_2',
-        createdAt: '2024-01-14',
-        lastReviewedAt: '2024-01-15',
-        reviewCount: 2,
+        reviewGate: 'GRADUATED',
+        createdAt: '2025-01-10T11:00:00',
+        lastReviewedAt: '2025-01-17T16:00:00',
+        reviewCount: 3,
       },
     ],
     [],
@@ -116,10 +100,10 @@ const PersonalStudyDetailPage = () => {
               </Link>
               <h1 className="text-3xl font-bold text-gray-900">{studyRoomInfo.studyRoomName}</h1>
               <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                {studyRoomInfo.subject}
+                {studyRoomInfo.studyRoomCategory}
               </span>
             </div>
-            <p className="text-gray-600">{studyRoomInfo.description}</p>
+            <p className="text-gray-600">{studyRoomInfo.studyRoomDescription}</p>
           </div>
           <Link to={`/create?from=personal&studyId=${id}`}>
             <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base">
@@ -132,24 +116,26 @@ const PersonalStudyDetailPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
             <div className="text-2xl font-bold text-blue-600 mb-1">
-              {studyRoomInfo.totalQuestions}
+              {studyRoomInfo.dashboard.totalCount}
             </div>
             <div className="text-sm text-gray-600">총 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
             <div className="text-2xl font-bold text-green-600 mb-1">
-              {studyRoomInfo.completedQuestions}
+              {studyRoomInfo.dashboard.completedCount}
             </div>
             <div className="text-sm text-gray-600">졸업한 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
             <div className="text-2xl font-bold text-orange-600 mb-1">
-              {studyRoomInfo.remainingQuestions}
+              {studyRoomInfo.dashboard.incompletedCount}
             </div>
             <div className="text-sm text-gray-600">남은 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
-            <div className="text-2xl font-bold text-purple-600 mb-1">{studyRoomInfo.progress}%</div>
+            <div className="text-2xl font-bold text-purple-600 mb-1">
+              {studyRoomInfo.dashboard.progressRate}%
+            </div>
             <div className="text-sm text-gray-600">진행률</div>
           </div>
         </div>
