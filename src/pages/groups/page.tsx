@@ -14,28 +14,26 @@ export default function GroupsPage() {
 
   const myGroups: GroupCardData[] = [
     {
-      id: 1,
-      name: '토익 스터디 그룹',
-      description: '토익 900점 목표로 함께 공부해요',
-      members: 8,
-      questions: 45,
-      code: 'A3K9XP2M',
+      studyRoomId: 2,
+      name: '알고리즘 스터디',
+      category: '코딩테스트',
+      description: '매주 월요일 알고리즘 문제 풀이',
+      joinCode: 'ABC12345',
+      totalProblems: 20,
+      graduatedProblems: 12,
+      memberCount: 5,
+      joinedAt: '2025-01-17T11:00:00',
     },
     {
-      id: 2,
-      name: '공무원 시험 준비',
-      description: '9급 공무원 시험 준비 스터디',
-      members: 12,
-      questions: 78,
-      code: '7BX4KL9Q',
-    },
-    {
-      id: 3,
-      name: '컴활 1급 취득',
-      description: '컴퓨터활용능력 1급 자격증 취득',
-      members: 6,
-      questions: 23,
-      code: 'Q2LM9A7B',
+      studyRoomId: 5,
+      name: 'CS 면접 대비',
+      category: '면접',
+      description: 'CS 기초 지식 스터디',
+      joinCode: 'XYZ98765',
+      totalProblems: 30,
+      graduatedProblems: 18,
+      memberCount: 3,
+      joinedAt: '2025-01-18T15:30:00',
     },
   ];
 
@@ -75,7 +73,7 @@ export default function GroupsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {myGroups.map((group) => (
             <GroupCard
-              key={group.id}
+              key={group.studyRoomId}
               group={group}
               copiedCode={copiedCode}
               onCopyCode={handleCopyCode}
