@@ -82,7 +82,7 @@ const PersonalStudyDetailPage = () => {
 
   const filteredProblems = useMemo(() => {
     if (activeFilter === '전체') return problems;
-    if (activeFilter === '완료') return problems.filter((p) => p.reviewGate === 'GRADUATED');
+    if (activeFilter === '졸업한 문제') return problems.filter((p) => p.reviewGate === 'GRADUATED');
     const gate = activeFilter === '1차관문' ? 'GATE_1' : 'GATE_2';
     return problems.filter((p) => p.reviewGate === gate);
   }, [activeFilter, problems]);
@@ -140,7 +140,7 @@ const PersonalStudyDetailPage = () => {
             <div className="text-2xl font-bold text-green-600 mb-1">
               {studyRoomInfo.completedQuestions}
             </div>
-            <div className="text-sm text-gray-600">완료</div>
+            <div className="text-sm text-gray-600">졸업한 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
             <div className="text-2xl font-bold text-orange-600 mb-1">
@@ -162,7 +162,7 @@ const PersonalStudyDetailPage = () => {
             { label: '전체', count: problems.length },
             { label: '1차관문', count: stage1Count },
             { label: '2차관문', count: stage2Count },
-            { label: '완료', count: completedCount },
+            { label: '졸업한 문제', count: completedCount },
           ].map((filter) => (
             <button
               key={filter.label}
