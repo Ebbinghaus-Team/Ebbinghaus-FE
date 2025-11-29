@@ -7,7 +7,6 @@ export type GroupCardData = {
   description: string;
   members: number;
   questions: number;
-  lastActivity: string;
   code: string;
 };
 
@@ -35,10 +34,6 @@ export default function GroupCard({ group, copiedCode, onCopyCode }: GroupCardPr
           <div className="flex items-center text-sm text-gray-500">
             <i className="ri-question-line mr-2"></i>
             <span>문제 {group.questions}개</span>
-          </div>
-          <div className="flex items-center text-sm text-gray-500">
-            <i className="ri-time-line mr-2"></i>
-            <span>마지막 활동: {group.lastActivity}</span>
           </div>
         </div>
       </Link>
