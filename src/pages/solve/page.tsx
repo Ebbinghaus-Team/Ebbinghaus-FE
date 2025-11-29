@@ -5,6 +5,8 @@ import SolveQuestion from '../../components/solve/SolveQuestion';
 import SolveOptions from '../../components/solve/SolveOptions';
 import SolveResult from '../../components/solve/SolveResult';
 import ReviewAddModal from '../../components/groups/detail/ReviewAddModal';
+import { useSubmitProblemMutation } from '../../api/problem/hooks';
+import type { ProblemType } from '../../types/common';
 
 const SolvePage = () => {
   const [searchParams] = useSearchParams();
@@ -25,14 +27,25 @@ const SolvePage = () => {
     isFirstAttempt: boolean;
     isReviewStateChanged: boolean;
   }>(null);
+  const submitMutation = useSubmitProblemMutation();
 
-  const problemDetail = {
+  const problemDetail: {
+    problemId: number;
+    question: string;
+    problemType: ProblemType;
+    studyRoomId: number;
+    choices: string[];
+    currentGate: 'GATE_1' | 'GATE_2' | 'GRADUATED';
+    nextReviewDate: string;
+    reviewCount: number;
+    includeInReview: boolean;
+  } = {
     problemId: Number(questionId) || 1,
     question: '자바의 접근 제어자가 아닌 것은?',
-    problemType: 'MCQ' as const,
+    problemType: 'MCQ',
     studyRoomId: 1,
     choices: ['public', 'private', 'protected', 'friend'],
-    currentGate: 'GATE_1' as const,
+    currentGate: 'GATE_1',
     nextReviewDate: '2025-01-29',
     reviewCount: 0,
     includeInReview: true,
@@ -55,23 +68,33 @@ const SolvePage = () => {
   };
 
   const handleSubmit = () => {
-    if (selectedAnswer !== null) {
-      const isCorrect = selectedAnswer === 0;
-      const mock = {
-        isCorrect,
-        explanation: isCorrect
-          ? '정답입니다. 해당 개념을 잘 이해하고 있습니다.'
-          : '접근 제어자에는 friend가 포함되지 않습니다.',
-        aiFeedback: null,
-        currentGate: isCorrect ? ('GATE_2' as const) : ('GATE_1' as const),
-        reviewCount: 1,
-        nextReviewDate: isCorrect ? '2025-01-31' : '2025-01-25',
-        isFirstAttempt: true,
-        isReviewStateChanged: true,
-      };
-      setSubmissionResult(mock);
-      setShowResult(true);
+    if (selectedAnswer === null) return;
+
+    // 답안 문자열 구성: MCQ=인덱스 문자열, OX='true'|'false', 기타=텍스트(데모에선 인덱스 문자열 유지)
+    let answer = String(selectedAnswer);
+    if (problemDetail.problemType === 'OX') {
+      answer = selectedAnswer === 0 ? 'true' : 'false';
     }
+
+    const pid = Number(problemDetail.problemId);
+    submitMutation.mutate(
+      { problemId: pid, submitProblemBody: { answer } },
+      {
+        onSuccess: (res) => {
+          setSubmissionResult({
+            isCorrect: res.isCorrect,
+            explanation: res.explanation,
+            aiFeedback: res.aiFeedback ?? null,
+            currentGate: res.currentGate ?? null,
+            reviewCount: res.reviewCount ?? null,
+            nextReviewDate: res.nextReviewDate ?? null,
+            isFirstAttempt: res.isFirstAttempt ?? false,
+            isReviewStateChanged: res.isReviewStateChanged ?? false,
+          });
+          setShowResult(true);
+        },
+      },
+    );
   };
 
   const handleGoBack = () => {
@@ -125,7 +148,7 @@ const SolvePage = () => {
               onSelect={handleAnswerSelect}
               onCancel={handleGoBack}
               onSubmit={handleSubmit}
-              isSubmitDisabled={selectedAnswer === null}
+              isSubmitDisabled={selectedAnswer === null || submitMutation.isPending}
             />
           </>
         ) : (

@@ -11,6 +11,8 @@ import EssaySection from '../../components/create/subjective/SubjectiveSection';
 import ExplanationField from '../../components/create/common/ExplanationField';
 import SaveActionBar from '../../components/create/common/SaveActionBar';
 import { mapOxAnswerToBoolean, parseKeywordsToArray } from '../../utils/apiMappers';
+import { useCreateProblemMutation } from '../../api/problem/hooks';
+import type { CreateProblemBody } from '../../types/problem';
 
 type ApiCreateProblemPayload = {
   problemType?: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
@@ -50,6 +52,8 @@ export default function CreatePage() {
   const [keywords, setKeywords] = useState('');
   const [modelAnswer, setModelAnswer] = useState('');
 
+  const createProblemMutation = useCreateProblemMutation();
+
   const myGroups = [
     { id: 1, name: '토익 스터디 그룹', members: 8 },
     { id: 2, name: '공무원 시험 준비', members: 12 },
@@ -65,37 +69,66 @@ export default function CreatePage() {
   // 쿼리 파라미터는 초기 상태로만 반영 (렌더 내 파생), 이후 사용자가 변경 가능
 
   const handleSave = () => {
-    // API 스펙에 맞춘 payload 구성
-    const apiProblemType = questionType || undefined;
+    const apiProblemType = questionType;
 
-    const payload: ApiCreateProblemPayload = {
-      problemType: apiProblemType,
-      question,
-      explanation,
-    };
-
+    let body: CreateProblemBody | null = null;
     if (apiProblemType === 'MCQ') {
-      payload.choices = options;
-      payload.correctChoiceIndex = Number(correctAnswer);
+      body = {
+        problemType: 'MCQ',
+        question,
+        explanation,
+        choices: options,
+        correctChoiceIndex: Number(correctAnswer),
+      };
     } else if (apiProblemType === 'OX') {
-      payload.answerBoolean = mapOxAnswerToBoolean(oxAnswer as 'O' | 'X');
+      body = {
+        problemType: 'OX',
+        question,
+        explanation,
+        answerBoolean: mapOxAnswerToBoolean(oxAnswer as 'O' | 'X'),
+      };
     } else if (apiProblemType === 'SHORT') {
-      payload.answerText = shortAnswer;
+      body = {
+        problemType: 'SHORT',
+        question,
+        explanation,
+        answerText: shortAnswer,
+      };
     } else if (apiProblemType === 'SUBJECTIVE') {
-      payload.modelAnswerText = modelAnswer;
-      payload.keywords = parseKeywordsToArray(keywords);
+      body = {
+        problemType: 'SUBJECTIVE',
+        question,
+        explanation,
+        modelAnswerText: modelAnswer,
+        keywords: parseKeywordsToArray(keywords),
+      };
     }
 
-    // TODO: API 연동 시 payload 전송
+    if (!body) return;
 
-    // 저장 후 해당 위치로 이동
-    if (saveLocation === 'group' && selectedGroup) {
-      navigate(`/groups/${selectedGroup}`);
-    } else if (saveLocation === 'personal' && selectedPersonalStudy) {
-      navigate(`/personal-study/${selectedPersonalStudy}`);
-    } else {
-      navigate('/dashboard');
-    }
+    const studyRoomId =
+      saveLocation === 'group'
+        ? Number(selectedGroup)
+        : saveLocation === 'personal'
+          ? Number(selectedPersonalStudy)
+          : NaN;
+
+    if (!Number.isFinite(studyRoomId)) return;
+
+    createProblemMutation.mutate(
+      { studyRoomId, createProblemBody: body },
+      {
+        onSuccess: () => {
+          if (saveLocation === 'group' && selectedGroup) {
+            navigate(`/groups/${selectedGroup}`);
+          } else if (saveLocation === 'personal' && selectedPersonalStudy) {
+            navigate(`/personal-study/${selectedPersonalStudy}`);
+          } else {
+            navigate('/dashboard');
+          }
+        },
+      },
+    );
   };
 
   const updateOption = (index: number, value: string) => {
