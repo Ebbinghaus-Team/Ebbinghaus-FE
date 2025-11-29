@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { mapGateToDisplayLabel } from '../../../utils/apiMappers';
+import type { ApiProblemType, ApiReviewGate } from '../../../utils/apiMappers';
 
 const PersonalStudyDetailPage = () => {
   const { id } = useParams();
@@ -15,66 +16,79 @@ const PersonalStudyDetailPage = () => {
     totalQuestions: 25,
     completedQuestions: 18,
     remainingQuestions: 7,
-    progress: 72
+    progress: 72,
   };
 
-  const problems = [
-    {
-      problemId: 1,
-      question: '극한의 정의와 성질',
-      problemType: 'SUBJECTIVE',
-      reviewGate: 'GATE_2',
-      createdAt: '2024-01-10',
-      lastReviewedAt: '2024-01-14',
-      reviewCount: 2
-    },
-    {
-      problemId: 2,
-      question: '미분의 기본 공식',
-      problemType: 'MCQ',
-      reviewGate: 'GRADUATED',
-      createdAt: '2024-01-11',
-      lastReviewedAt: '2024-01-15',
-      reviewCount: 3
-    },
-    {
-      problemId: 3,
-      question: '연쇄법칙 응용 문제',
-      problemType: 'SHORT',
-      reviewGate: 'GATE_1',
-      createdAt: '2024-01-12',
-      lastReviewedAt: '2024-01-13',
-      reviewCount: 1
-    },
-    {
-      problemId: 4,
-      question: '적분의 기본 정리',
-      problemType: 'OX',
-      reviewGate: 'GATE_1',
-      createdAt: '2024-01-13',
-      lastReviewedAt: '2024-01-14',
-      reviewCount: 1
-    },
-    {
-      problemId: 5,
-      question: '부분적분 계산',
-      problemType: 'SUBJECTIVE',
-      reviewGate: 'GATE_2',
-      createdAt: '2024-01-14',
-      lastReviewedAt: '2024-01-15',
-      reviewCount: 2
-    }
-  ];
+  type ProblemItem = {
+    problemId: number;
+    question: string;
+    problemType: ApiProblemType;
+    reviewGate: ApiReviewGate;
+    createdAt: string;
+    lastReviewedAt?: string;
+    reviewCount: number;
+  };
+
+  const problems = useMemo<ProblemItem[]>(
+    () => [
+      {
+        problemId: 1,
+        question: '극한의 정의와 성질',
+        problemType: 'SUBJECTIVE',
+        reviewGate: 'GATE_2',
+        createdAt: '2024-01-10',
+        lastReviewedAt: '2024-01-14',
+        reviewCount: 2,
+      },
+      {
+        problemId: 2,
+        question: '미분의 기본 공식',
+        problemType: 'MCQ',
+        reviewGate: 'GRADUATED',
+        createdAt: '2024-01-11',
+        lastReviewedAt: '2024-01-15',
+        reviewCount: 3,
+      },
+      {
+        problemId: 3,
+        question: '연쇄법칙 응용 문제',
+        problemType: 'SHORT',
+        reviewGate: 'GATE_1',
+        createdAt: '2024-01-12',
+        lastReviewedAt: '2024-01-13',
+        reviewCount: 1,
+      },
+      {
+        problemId: 4,
+        question: '적분의 기본 정리',
+        problemType: 'OX',
+        reviewGate: 'GATE_1',
+        createdAt: '2024-01-13',
+        lastReviewedAt: '2024-01-14',
+        reviewCount: 1,
+      },
+      {
+        problemId: 5,
+        question: '부분적분 계산',
+        problemType: 'SUBJECTIVE',
+        reviewGate: 'GATE_2',
+        createdAt: '2024-01-14',
+        lastReviewedAt: '2024-01-15',
+        reviewCount: 2,
+      },
+    ],
+    [],
+  );
 
   const filteredProblems = useMemo(() => {
     if (activeFilter === '전체') return problems;
-    if (activeFilter === '완료') return problems.filter(p => p.reviewGate === 'GRADUATED');
+    if (activeFilter === '완료') return problems.filter((p) => p.reviewGate === 'GRADUATED');
     const gate = activeFilter === '1차관문' ? 'GATE_1' : 'GATE_2';
-    return problems.filter(p => p.reviewGate === gate);
+    return problems.filter((p) => p.reviewGate === gate);
   }, [activeFilter, problems]);
-  const stage1Count = problems.filter(p => p.reviewGate === 'GATE_1').length;
-  const stage2Count = problems.filter(p => p.reviewGate === 'GATE_2').length;
-  const completedCount = problems.filter(p => p.reviewGate === 'GRADUATED').length;
+  const stage1Count = problems.filter((p) => p.reviewGate === 'GATE_1').length;
+  const stage2Count = problems.filter((p) => p.reviewGate === 'GATE_2').length;
+  const completedCount = problems.filter((p) => p.reviewGate === 'GRADUATED').length;
 
   const getStageColor = (stage: string) => {
     switch (stage) {
@@ -117,15 +131,21 @@ const PersonalStudyDetailPage = () => {
         {/* 통계 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
-            <div className="text-2xl font-bold text-blue-600 mb-1">{studyRoomInfo.totalQuestions}</div>
+            <div className="text-2xl font-bold text-blue-600 mb-1">
+              {studyRoomInfo.totalQuestions}
+            </div>
             <div className="text-sm text-gray-600">총 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
-            <div className="text-2xl font-bold text-green-600 mb-1">{studyRoomInfo.completedQuestions}</div>
+            <div className="text-2xl font-bold text-green-600 mb-1">
+              {studyRoomInfo.completedQuestions}
+            </div>
             <div className="text-sm text-gray-600">완료</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
-            <div className="text-2xl font-bold text-orange-600 mb-1">{studyRoomInfo.remainingQuestions}</div>
+            <div className="text-2xl font-bold text-orange-600 mb-1">
+              {studyRoomInfo.remainingQuestions}
+            </div>
             <div className="text-sm text-gray-600">남은 문제</div>
           </div>
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 text-center">
@@ -139,10 +159,10 @@ const PersonalStudyDetailPage = () => {
       <div className="mb-6">
         <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg w-fit">
           {[
-            { label: '전체', count: questions.length },
+            { label: '전체', count: problems.length },
             { label: '1차관문', count: stage1Count },
             { label: '2차관문', count: stage2Count },
-            { label: '완료', count: completedCount }
+            { label: '완료', count: completedCount },
           ].map((filter) => (
             <button
               key={filter.label}
@@ -163,12 +183,17 @@ const PersonalStudyDetailPage = () => {
       <div className="space-y-4">
         {filteredProblems.length > 0 ? (
           filteredProblems.map((p) => (
-            <div key={p.problemId} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div
+              key={p.problemId}
+              className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStageColor(mapGateToDisplayLabel(p.reviewGate as any))}`}>
-                      {mapGateToDisplayLabel(p.reviewGate as any)}
+                    <span
+                      className={`px-2 py-1 text-xs font-medium rounded-full ${getStageColor(mapGateToDisplayLabel(p.reviewGate))}`}
+                    >
+                      {mapGateToDisplayLabel(p.reviewGate)}
                     </span>
                     <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
                       {p.problemType}
@@ -183,10 +208,10 @@ const PersonalStudyDetailPage = () => {
                 </div>
                 <div className="flex items-center space-x-3">
                   <Link to={`/solve?id=${p.problemId}&from=personal`}>
-                      <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-3 py-1.5 text-sm">
-                        복습하기
-                      </button>
-                    </Link>
+                    <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-3 py-1.5 text-sm">
+                      문제풀기
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
