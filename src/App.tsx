@@ -22,6 +22,7 @@ const GroupsPage = lazy(() => import('./pages/groups/page'));
 const GroupDetailPage = lazy(() => import('./pages/groups/[id]/page'));
 const DashboardPage = lazy(() => import('./pages/dashboard/page'));
 const LoginPage = lazy(() => import('./pages/login/page'));
+const SignupPage = lazy(() => import('./pages/signup/page'));
 const NotFoundPage = lazy(() => import('./pages/NotFound'));
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
               <Route path="groups/:id" element={<GroupDetailPage />} />
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignupPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
