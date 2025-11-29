@@ -8,6 +8,7 @@ const PersonalStudyPage = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [roomName, setRoomName] = useState('');
   const [roomDescription, setRoomDescription] = useState('');
+  const [roomCategory, setRoomCategory] = useState('');
 
   const studyRooms: StudyRoom[] = [
     {
@@ -61,6 +62,7 @@ const PersonalStudyPage = () => {
       setShowCreateModal(false);
       setRoomName('');
       setRoomDescription('');
+      setRoomCategory('');
     }
   };
 
@@ -87,8 +89,10 @@ const PersonalStudyPage = () => {
         open={showCreateModal}
         roomName={roomName}
         roomDescription={roomDescription}
+        roomCategory={roomCategory}
         onChangeRoomName={setRoomName}
         onChangeRoomDescription={setRoomDescription}
+        onChangeRoomCategory={setRoomCategory}
         onClose={() => setShowCreateModal(false)}
         onCreate={handleCreateRoom}
       />
