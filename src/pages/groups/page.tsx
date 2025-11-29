@@ -19,7 +19,6 @@ export default function GroupsPage() {
       description: '토익 900점 목표로 함께 공부해요',
       members: 8,
       questions: 45,
-      lastActivity: '2시간 전',
       code: 'A3K9XP2M',
     },
     {
@@ -28,7 +27,6 @@ export default function GroupsPage() {
       description: '9급 공무원 시험 준비 스터디',
       members: 12,
       questions: 78,
-      lastActivity: '1일 전',
       code: '7BX4KL9Q',
     },
     {
@@ -37,7 +35,6 @@ export default function GroupsPage() {
       description: '컴퓨터활용능력 1급 자격증 취득',
       members: 6,
       questions: 23,
-      lastActivity: '3일 전',
       code: 'Q2LM9A7B',
     },
   ];
