@@ -4,8 +4,10 @@ type CreateRoomModalProps = {
   open: boolean;
   roomName: string;
   roomDescription: string;
+  roomCategory: string;
   onChangeRoomName: (value: string) => void;
   onChangeRoomDescription: (value: string) => void;
+  onChangeRoomCategory: (value: string) => void;
   onClose: () => void;
   onCreate: () => void;
 };
@@ -14,8 +16,10 @@ export default function CreateRoomModal({
   open,
   roomName,
   roomDescription,
+  roomCategory,
   onChangeRoomName,
   onChangeRoomDescription,
+  onChangeRoomCategory,
   onClose,
   onCreate,
 }: CreateRoomModalProps) {
@@ -50,6 +54,16 @@ export default function CreateRoomModal({
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">카테고리</label>
+            <input
+              type="text"
+              value={roomCategory}
+              onChange={(e) => onChangeRoomCategory(e.target.value)}
+              placeholder="예: 프로그래밍, 영어, 역사"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
         </div>
         <div className="flex space-x-3">
           <button
@@ -58,7 +72,10 @@ export default function CreateRoomModal({
           >
             취소
           </button>
-          <button onClick={onCreate} className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button
+            onClick={onCreate}
+            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
             만들기
           </button>
         </div>
@@ -66,5 +83,3 @@ export default function CreateRoomModal({
     </div>
   );
 }
-
-
