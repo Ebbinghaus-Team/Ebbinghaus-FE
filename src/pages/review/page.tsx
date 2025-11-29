@@ -23,7 +23,7 @@ const ReviewPage = () => {
         gate: 'GATE_1',
         nextReviewDate: '2024-01-15',
         attemptStatus: 'NOT_ATTEMPTED',
-        subject: '수학',
+        subject: 'OX',
       },
       {
         problemId: 2,
@@ -32,7 +32,7 @@ const ReviewPage = () => {
         gate: 'GATE_2',
         nextReviewDate: '2024-01-15',
         attemptStatus: 'CORRECT',
-        subject: '영어',
+        subject: '객관식',
       },
       {
         problemId: 3,
@@ -41,7 +41,7 @@ const ReviewPage = () => {
         gate: 'GATE_1',
         nextReviewDate: '2024-01-15',
         attemptStatus: 'NOT_ATTEMPTED',
-        subject: '한국사',
+        subject: 'OX',
       },
       {
         problemId: 4,
@@ -50,7 +50,7 @@ const ReviewPage = () => {
         gate: 'GATE_2',
         nextReviewDate: '2024-01-15',
         attemptStatus: 'NOT_ATTEMPTED',
-        subject: '화학',
+        subject: '객관식',
       },
     ],
   } as const;
