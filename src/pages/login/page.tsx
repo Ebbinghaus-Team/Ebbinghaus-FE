@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -48,7 +47,7 @@ const LoginPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <button 
+            <button
               type="submit"
               className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-6 py-3 text-lg w-full"
             >
@@ -56,14 +55,10 @@ const LoginPage = () => {
             </button>
           </form>
 
-
           <div className="mt-6 text-center">
-            <button 
-              type="button" 
-              className="text-sm text-blue-600 hover:text-blue-500"
-            >
+            <Link to="/signup" className="text-sm text-blue-600 hover:text-blue-500">
               계정이 없으신가요? 회원가입
-            </button>
+            </Link>
           </div>
         </div>
 
