@@ -26,17 +26,29 @@ const SolvePage = () => {
     isReviewStateChanged: boolean;
   }>(null);
 
-  // 샘플 문제 데이터
-  const question = {
-    id: questionId,
-    type: '객관식',
-    category: '복습 문제',
-    title: 'TOEIC Part 5 - 문법 문제 (동사의 시제)',
-    content: 'The company _____ its annual report next month according to the schedule.',
-    options: ['1. will publish', '2. published', '3. has published', '4. publishing'],
-    correctAnswer: 0,
-    explanation: '미래 시제를 나타내는 "next month"가 있으므로 미래형 "will publish"가 정답입니다.',
+  const problemDetail = {
+    problemId: Number(questionId) || 1,
+    question: '자바의 접근 제어자가 아닌 것은?',
+    problemType: 'MCQ' as const,
+    studyRoomId: 1,
+    choices: ['public', 'private', 'protected', 'friend'],
+    currentGate: 'GATE_1' as const,
+    nextReviewDate: '2025-01-29',
+    reviewCount: 0,
+    includeInReview: true,
   };
+
+  const questionTypeLabel =
+    problemDetail.problemType === 'MCQ'
+      ? '객관식'
+      : problemDetail.problemType === 'OX'
+        ? 'OX'
+        : problemDetail.problemType === 'SHORT'
+          ? '단답형'
+          : '서술형';
+
+  const categoryLabel =
+    from === 'group' ? '그룹 문제' : from === 'personal' ? '개인 문제' : '복습 문제';
 
   const handleAnswerSelect = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
@@ -44,10 +56,12 @@ const SolvePage = () => {
 
   const handleSubmit = () => {
     if (selectedAnswer !== null) {
-      const isCorrect = selectedAnswer === question.correctAnswer;
+      const isCorrect = selectedAnswer === 0;
       const mock = {
         isCorrect,
-        explanation: question.explanation,
+        explanation: isCorrect
+          ? '정답입니다. 해당 개념을 잘 이해하고 있습니다.'
+          : '접근 제어자에는 friend가 포함되지 않습니다.',
         aiFeedback: null,
         currentGate: isCorrect ? ('GATE_2' as const) : ('GATE_1' as const),
         reviewCount: 1,
@@ -89,24 +103,24 @@ const SolvePage = () => {
     handleGoBack();
   };
 
-  const isCorrect = submissionResult?.isCorrect ?? selectedAnswer === question.correctAnswer;
+  const isCorrect = submissionResult?.isCorrect ?? false;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <SolveHeader
         onBack={handleGoBack}
-        questionType={question.type}
-        category={question.category}
-        title={question.title}
+        questionType={questionTypeLabel}
+        category={categoryLabel}
+        title={problemDetail.question}
       />
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {!showResult ? (
           <>
-            <SolveQuestion content={question.content} />
+            <SolveQuestion content={problemDetail.question} />
 
             <SolveOptions
-              options={question.options}
+              options={problemDetail.choices}
               selectedAnswer={selectedAnswer}
               onSelect={handleAnswerSelect}
               onCancel={handleGoBack}
@@ -118,8 +132,8 @@ const SolvePage = () => {
           <>
             <SolveResult
               isCorrect={isCorrect}
-              correctAnswerText={question.options[question.correctAnswer]}
-              explanation={submissionResult?.explanation ?? question.explanation}
+              correctAnswerText={problemDetail.choices[0]}
+              explanation={submissionResult?.explanation ?? ''}
               aiFeedback={submissionResult?.aiFeedback ?? null}
               currentGate={submissionResult?.currentGate ?? null}
               nextReviewDate={submissionResult?.nextReviewDate ?? null}
@@ -131,7 +145,7 @@ const SolvePage = () => {
 
       <ReviewAddModal
         open={showReviewModal}
-        title={question.title}
+        title={problemDetail.question}
         onSkip={handleSkipReview}
         onAdd={handleAddToReview}
       />
