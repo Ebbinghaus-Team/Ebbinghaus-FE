@@ -13,18 +13,8 @@ import SaveActionBar from '../../components/create/common/SaveActionBar';
 import { mapOxAnswerToBoolean, parseKeywordsToArray } from '../../utils/apiMappers';
 import { useCreateProblemMutation } from '../../api/problem/hooks';
 import type { CreateProblemBody } from '../../types/problem';
-
-type ApiCreateProblemPayload = {
-  problemType?: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
-  question?: string;
-  explanation?: string;
-  choices?: string[];
-  correctChoiceIndex?: number;
-  answerBoolean?: boolean;
-  answerText?: string;
-  modelAnswerText?: string;
-  keywords?: string[];
-};
+import { useGroupStudyRoomsQuery, usePersonalStudyRoomsQuery } from '../../api/studyRoom/hooks';
+import toast from 'react-hot-toast';
 
 export default function CreatePage() {
   const navigate = useNavigate();
@@ -54,17 +44,31 @@ export default function CreatePage() {
 
   const createProblemMutation = useCreateProblemMutation();
 
-  const myGroups = [
-    { id: 1, name: '토익 스터디 그룹', members: 8 },
-    { id: 2, name: '공무원 시험 준비', members: 12 },
-    { id: 3, name: '컴활 1급 취득', members: 6 },
-  ];
+  const { data: groupRooms } = useGroupStudyRoomsQuery();
+  const { data: personalRooms } = usePersonalStudyRoomsQuery();
 
-  const myPersonalStudies = [
-    { id: 1, name: '영어 단어 암기', questions: 45 },
-    { id: 2, name: '수학 공식 정리', questions: 23 },
-    { id: 3, name: '역사 연표 암기', questions: 67 },
-  ];
+  // MultipleChoiceSection에서 정답 "인덱스"를 전달해도 수용하도록 래핑
+  const handleSetCorrectAnswer = (val: unknown) => {
+    if (typeof val === 'number') {
+      setCorrectAnswer(String(val));
+      return;
+    }
+    if (typeof val === 'string') {
+      setCorrectAnswer(val);
+    }
+  };
+
+  const myGroups = (groupRooms?.rooms ?? []).map((r) => ({
+    id: r.studyRoomId,
+    name: r.name,
+    members: r.memberCount,
+  }));
+
+  const myPersonalStudies = (personalRooms?.rooms ?? []).map((r) => ({
+    id: r.studyRoomId,
+    name: r.name,
+    questions: r.totalProblems,
+  }));
 
   // 쿼리 파라미터는 초기 상태로만 반영 (렌더 내 파생), 이후 사용자가 변경 가능
 
@@ -73,12 +77,22 @@ export default function CreatePage() {
 
     let body: CreateProblemBody | null = null;
     if (apiProblemType === 'MCQ') {
+      const trimmedChoices = options.map((c) => c.trim());
+      const idx = Number.parseInt(correctAnswer, 10);
+      if (!Number.isFinite(idx) || Number.isNaN(idx) || idx < 0 || idx >= trimmedChoices.length) {
+        toast.error('객관식 정답을 선택해주세요.');
+        return;
+      }
+      if (!trimmedChoices.every((c) => c.length > 0)) {
+        toast.error('선택지는 비어 있을 수 없습니다.');
+        return;
+      }
       body = {
         problemType: 'MCQ',
         question,
         explanation,
-        choices: options,
-        correctChoiceIndex: Number(correctAnswer),
+        choices: trimmedChoices,
+        correctChoiceIndex: idx,
       };
     } else if (apiProblemType === 'OX') {
       body = {
@@ -207,7 +221,7 @@ export default function CreatePage() {
                   addOption={addOption}
                   removeOption={removeOption}
                   correctAnswer={correctAnswer}
-                  setCorrectAnswer={setCorrectAnswer}
+                  setCorrectAnswer={handleSetCorrectAnswer as (v: string | number) => void}
                 />
               )}
 
