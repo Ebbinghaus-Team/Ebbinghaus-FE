@@ -14,6 +14,7 @@ const SolvePage = () => {
   const navigate = useNavigate();
   const questionId = searchParams.get('id');
   const from = searchParams.get('from');
+  const isMy = (searchParams.get('isMy') ?? 'false') === 'true';
 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [textAnswer, setTextAnswer] = useState<string>('');
@@ -96,7 +97,8 @@ const SolvePage = () => {
     if (from === 'personal') {
       navigate('/personal-study');
     } else if (from === 'group') {
-      navigate('/groups');
+      const gid = problemDetail?.studyRoomId;
+      navigate(gid ? `/groups/${gid}` : '/groups');
     } else {
       navigate('/review');
     }
@@ -104,6 +106,10 @@ const SolvePage = () => {
 
   const handleResultNext = () => {
     if (from === 'group') {
+      if (isMy || problemDetail?.includeInReview) {
+        handleGoBack();
+        return;
+      }
       setShowReviewModal(true);
     } else {
       handleGoBack();

@@ -1,13 +1,23 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ReviewHeader from '../../components/review/ReviewHeader';
 import ReviewStats from '../../components/review/ReviewStats';
 import ReviewFilter from '../../components/review/ReviewFilter';
 import ReviewProblemList, { type ReviewProblem } from '../../components/review/ReviewProblemList';
 import { useTodayReviewProblemsQuery } from '../../api/review/hooks';
+import { useAuthStatus } from '../../hooks/useAuthStatus';
 
 const ReviewPage = () => {
   const [activeFilter, setActiveFilter] = useState('전체');
+  const navigate = useNavigate();
+  const { isLoggedIn, isLoading: authLoading } = useAuthStatus();
   const { data, isLoading } = useTodayReviewProblemsQuery();
+
+  useEffect(() => {
+    if (!authLoading && !isLoggedIn) {
+      navigate('/login', { replace: true });
+    }
+  }, [authLoading, isLoggedIn, navigate]);
 
   const toSubjectLabel = (t: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE') =>
     t === 'MCQ' ? '객관식' : t === 'OX' ? 'OX' : t === 'SHORT' ? '단답형' : '서술형';

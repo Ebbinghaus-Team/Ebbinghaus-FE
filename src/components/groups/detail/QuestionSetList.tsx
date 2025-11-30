@@ -61,7 +61,9 @@ export default function QuestionSetList({
             </div>
             <div className="flex items-center space-x-3">
               <div className="flex space-x-2">
-                <Link to={`/solve?id=${questionSet.id}&from=group`}>
+                <Link
+                  to={`/solve?id=${questionSet.id}&from=group&isMy=${questionSet.isMyProblem ? 'true' : 'false'}`}
+                >
                   <button
                     className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base"
                     onClick={() => {

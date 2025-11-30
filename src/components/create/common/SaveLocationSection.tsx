@@ -22,6 +22,8 @@ export default function SaveLocationSection({
 	myGroups,
 	myPersonalStudies,
 }: SaveLocationSectionProps) {
+	const disablePersonal = myPersonalStudies.length === 0;
+	const disableGroup = myGroups.length === 0;
 	return (
 		<div>
 			<label className="block text-sm font-medium text-gray-700 mb-3">
@@ -29,12 +31,15 @@ export default function SaveLocationSection({
 			</label>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
 				<div
-					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
+					className={`border-2 rounded-lg p-4 transition-colors ${
 						saveLocation === "personal"
 							? "border-blue-500 bg-blue-50"
-							: "border-gray-200 hover:border-gray-300"
+							: "border-gray-200 " + (disablePersonal ? "opacity-60 cursor-not-allowed" : "hover:border-gray-300 cursor-pointer")
 					}`}
-					onClick={() => setSaveLocation("personal")}
+					onClick={() => {
+						if (disablePersonal) return;
+						setSaveLocation("personal");
+					}}
 				>
 					<div className="flex items-center justify-between">
 						<div className="flex items-center">
@@ -43,7 +48,9 @@ export default function SaveLocationSection({
 								<h3 className="text-lg font-semibold text-gray-900">
 									개인 스터디
 								</h3>
-								<p className="text-gray-600 text-sm">나만의 문제집에 저장</p>
+								<p className="text-gray-600 text-sm">
+									{disablePersonal ? "개인 스터디가 없습니다" : "나만의 문제집에 저장"}
+								</p>
 							</div>
 						</div>
 						<div
@@ -61,12 +68,15 @@ export default function SaveLocationSection({
 				</div>
 
 				<div
-					className={`border-2 rounded-lg p-4 cursor-pointer transition-colors ${
+					className={`border-2 rounded-lg p-4 transition-colors ${
 						saveLocation === "group"
 							? "border-blue-500 bg-blue-50"
-							: "border-gray-200 hover:border-gray-300"
+							: "border-gray-200 " + (disableGroup ? "opacity-60 cursor-not-allowed" : "hover:border-gray-300 cursor-pointer")
 					}`}
-					onClick={() => setSaveLocation("group")}
+					onClick={() => {
+						if (disableGroup) return;
+						setSaveLocation("group");
+					}}
 				>
 					<div className="flex items-center justify-between">
 						<div className="flex items-center">
@@ -75,7 +85,9 @@ export default function SaveLocationSection({
 								<h3 className="text-lg font-semibold text-gray-900">
 									그룹 스터디
 								</h3>
-								<p className="text-gray-600 text-sm">그룹 멤버들과 공유</p>
+								<p className="text-gray-600 text-sm">
+									{disableGroup ? "그룹 스터디가 없습니다" : "그룹 멤버들과 공유"}
+								</p>
 							</div>
 						</div>
 						<div
@@ -117,6 +129,9 @@ export default function SaveLocationSection({
 								</p>
 							</div>
 						))}
+						{myPersonalStudies.length === 0 && (
+							<div className="text-sm text-gray-500">개인 스터디가 없어 선택할 수 없습니다.</div>
+						)}
 					</div>
 				</div>
 			)}
@@ -141,6 +156,9 @@ export default function SaveLocationSection({
 								<p className="text-xs text-gray-600">멤버 {group.members}명</p>
 							</div>
 						))}
+						{myGroups.length === 0 && (
+							<div className="text-sm text-gray-500">그룹 스터디가 없어 선택할 수 없습니다.</div>
+						)}
 					</div>
 				</div>
 			)}

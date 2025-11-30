@@ -106,7 +106,7 @@ export default function HomePage() {
               <img 
                 alt="망각곡선 연구" 
                 className="w-full h-auto rounded-xl shadow-lg object-cover" 
-                src="https://readdy.ai/api/search-image?query=Scientific%20research%20graph%20showing%20memory%20retention%20curve%2C%20educational%20psychology%20study%2C%20clean%20academic%20visualization%2C%20forgetting%20curve%20diagram%2C%20learning%20efficiency%20data&width=500&height=350&seq=research1&orientation=landscape"
+                src="/assets/combating-the-forgetting-curve.png"
               />
             </div>
             <div className="space-y-8">
