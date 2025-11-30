@@ -8,100 +8,39 @@ import QuestionSetList, {
 } from '../../../components/groups/detail/QuestionSetList';
 import MembersSidebar from '../../../components/groups/detail/MembersSidebar';
 import ReviewAddModal from '../../../components/groups/detail/ReviewAddModal';
+import { useGroupStudyRoomProblemsQuery, useGroupStudyRoomMembersQuery } from '../../../api/studyRoom/hooks';
 
 const GroupDetailPage = () => {
-  useParams();
+  const { id } = useParams();
+  const studyRoomId = Number(id) || 0;
   const [activeFilter, setActiveFilter] = useState('전체');
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionSet | null>(null);
   const [codeCopied, setCodeCopied] = useState(false);
 
-  const group = {
-    id: 1,
-    title: '토익 스터디 그룹',
-    description: '토익 900점 목표로 함께 공부해요',
-    members: 8,
-    totalQuestionSets: 12,
-    unsolvedQuestionSets: 8,
-    solvedQuestionSets: 4,
-    code: 'A3K9XP2M',
-  };
-
-  const members = [
-    {
-      userId: 1,
-      username: '김철수',
-      isOwner: true,
-      joinedAt: '2024-01-01',
-    },
-    {
-      userId: 2,
-      username: '이영희',
-      isOwner: false,
-      joinedAt: '2024-01-03',
-    },
-    {
-      userId: 3,
-      username: '박민수',
-      isOwner: false,
-      joinedAt: '2024-01-05',
-    },
-  ];
-
-  const questionSets = [
-    {
-      id: 1,
-      title: 'TOEIC Part 5 - 문법 기초',
-      description: '동사의 시제와 수일치 문제 모음',
-      questionCount: 15,
-      author: '김영희',
-      createdAt: '2024-01-14',
-      status: '안 푼 문제',
-      progress: 0,
-    },
-    {
-      id: 2,
-      title: 'TOEIC 어휘 - 비즈니스 용어',
-      description: '실무에서 자주 사용되는 비즈니스 영어 어휘',
-      questionCount: 20,
-      author: '박민수',
-      createdAt: '2024-01-12',
-      status: '1차 관문',
-      progress: 30,
-    },
-    {
-      id: 3,
-      title: 'TOEIC Part 7 - 독해 전략',
-      description: '긴 지문 독해를 위한 핵심 전략과 문제',
-      questionCount: 10,
-      author: '최지영',
-      createdAt: '2024-01-11',
-      status: '2차 관문',
-      progress: 60,
-    },
-    {
-      id: 4,
-      title: 'TOEIC Part 1 - 사진 묘사',
-      description: '사진을 보고 적절한 설명을 찾는 문제',
-      questionCount: 12,
-      author: '이민호',
-      createdAt: '2024-01-10',
-      status: '완료',
-      progress: 100,
-    },
-    {
-      id: 5,
-      title: 'TOEIC Part 2 - 응답 문제',
-      description: '질문에 대한 적절한 응답을 찾는 문제',
-      questionCount: 18,
-      author: '정수연',
-      createdAt: '2024-01-09',
-      status: '완료',
-      progress: 100,
-    },
-  ];
+  const { data: problemsData, isLoading: loadingProblems } = useGroupStudyRoomProblemsQuery(studyRoomId);
+  const { data: membersData, isLoading: loadingMembers } = useGroupStudyRoomMembersQuery(studyRoomId);
 
   const filterOptions = ['전체', '안 푼 문제', '1차 관문', '2차 관문', '완료'];
+
+  const toStatusLabel = (gate: string) => {
+    if (gate === 'NOT_IN_REVIEW') return '안 푼 문제';
+    if (gate === 'GATE_1') return '1차 관문';
+    if (gate === 'GATE_2') return '2차 관문';
+    if (gate === 'GRADUATED') return '완료';
+    return '안 푼 문제';
+  };
+
+  const questionSets: QuestionSet[] =
+    problemsData?.problems.map((p) => ({
+      id: p.problemId,
+      title: p.question,
+      description: p.problemType,
+      questionCount: 1,
+      author: p.creatorName,
+      createdAt: p.createdAt,
+      status: toStatusLabel(p.reviewGate),
+    })) ?? [];
 
   const getFilterCount = (filter: string) => {
     if (filter === '전체') return questionSets.length;
@@ -145,20 +84,52 @@ const GroupDetailPage = () => {
   };
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(group.code);
+    if (!problemsData) return;
+    navigator.clipboard.writeText(problemsData.joinCode);
     setCodeCopied(true);
     setTimeout(() => setCodeCopied(false), 2000);
   };
+
+  if (loadingProblems || loadingMembers || !problemsData || !membersData) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="animate-pulse space-y-6">
+          <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="h-20 bg-gray-200 rounded"></div>
+            <div className="h-20 bg-gray-200 rounded"></div>
+            <div className="h-20 bg-gray-200 rounded"></div>
+          </div>
+          <div className="h-10 bg-gray-200 rounded w-1/2"></div>
+          <div className="space-y-3">
+            <div className="h-24 bg-gray-200 rounded"></div>
+            <div className="h-24 bg-gray-200 rounded"></div>
+            <div className="h-24 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const headerGroup = {
+    id: problemsData.studyRoomId,
+    title: problemsData.studyRoomName,
+    description: problemsData.studyRoomDescription,
+    code: problemsData.joinCode,
+  };
+  const totalQuestionSets = problemsData.dashboard.totalCount;
+  const unsolvedQuestionSets = problemsData.dashboard.unreviewedCount;
+  const solvedQuestionSets = problemsData.problems.filter((p) => p.reviewGate === 'GRADUATED').length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex gap-6">
         <div className="flex-1">
-          <GroupInfoHeader group={group} codeCopied={codeCopied} onCopyCode={handleCopyCode} />
+          <GroupInfoHeader group={headerGroup} codeCopied={codeCopied} onCopyCode={handleCopyCode} />
           <GroupStats
-            totalQuestionSets={group.totalQuestionSets}
-            unsolvedQuestionSets={group.unsolvedQuestionSets}
-            solvedQuestionSets={group.solvedQuestionSets}
+            totalQuestionSets={totalQuestionSets}
+            unsolvedQuestionSets={unsolvedQuestionSets}
+            solvedQuestionSets={solvedQuestionSets}
           />
           <FilterTabs
             filters={filterOptions}
@@ -181,7 +152,7 @@ const GroupDetailPage = () => {
             </div>
           )}
         </div>
-        <MembersSidebar members={members} />
+        <MembersSidebar members={membersData.members} />
       </div>
 
       <ReviewAddModal
