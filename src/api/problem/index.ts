@@ -53,7 +53,7 @@ export async function submitProblem(
       status: res.status,
       title: data?.title ?? '문제 제출 오류',
       detail: data?.detail ?? '문제 제출 중 오류가 발생했습니다.',
-      instance: data?.instance ?? `/api/problems/${problemId}/submit`,
+      instance: data?.instance ?? `/api/${problemId}/submit`,
     };
     throw error;
   }

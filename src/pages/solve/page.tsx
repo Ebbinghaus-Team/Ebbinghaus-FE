@@ -200,15 +200,26 @@ const SolvePage = () => {
           </>
         ) : (
           <>
-            <SolveResult
-              isCorrect={isCorrect}
-              correctAnswerText={problemDetail?.choices?.[0] ?? ''}
-              explanation={submissionResult?.explanation ?? ''}
-              aiFeedback={submissionResult?.aiFeedback ?? null}
-              currentGate={submissionResult?.currentGate ?? null}
-              nextReviewDate={submissionResult?.nextReviewDate ?? null}
-              onConfirm={handleResultNext}
-            />
+            {(() => {
+              let correctText = '';
+              if (problemDetail?.problemType === 'OX') {
+                const userOX = selectedAnswer === 0 ? 'O' : 'X';
+                correctText =
+                  (submissionResult?.isCorrect ?? false) ? userOX : userOX === 'O' ? 'X' : 'O';
+              }
+              // MCQ/SHORT/SUBJECTIVE는 API에서 정답 정보를 제공하지 않으므로 표시 생략
+              return (
+                <SolveResult
+                  isCorrect={isCorrect}
+                  correctAnswerText={correctText}
+                  explanation={submissionResult?.explanation ?? ''}
+                  aiFeedback={submissionResult?.aiFeedback ?? null}
+                  currentGate={submissionResult?.currentGate ?? null}
+                  nextReviewDate={submissionResult?.nextReviewDate ?? null}
+                  onConfirm={handleResultNext}
+                />
+              );
+            })()}
           </>
         )}
       </div>

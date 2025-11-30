@@ -7,6 +7,7 @@ import CreateRoomModal from '../../components/personal/CreateRoomModal';
 import { usePersonalStudyRoomsQuery } from '../../api/studyRoom/hooks';
 import { useCreatePersonalStudyRoomMutation } from '../../api/studyRoom/hooks';
 import { useAuthStatus } from '../../hooks/useAuthStatus';
+import toast from 'react-hot-toast';
 
 const PersonalStudyPage = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -49,6 +50,7 @@ const PersonalStudyPage = () => {
 
   useEffect(() => {
     if (!authLoading && !isLoggedIn) {
+      toast.error('로그인이 필요합니다.');
       navigate('/login', { replace: true });
     }
   }, [authLoading, isLoggedIn, navigate]);
