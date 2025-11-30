@@ -4,9 +4,10 @@ import SolveHeader from '../../components/solve/SolveHeader';
 import SolveQuestion from '../../components/solve/SolveQuestion';
 import SolveOptions from '../../components/solve/SolveOptions';
 import SolveResult from '../../components/solve/SolveResult';
+import SolveTextAnswer from '../../components/solve/SolveTextAnswer';
 import ReviewAddModal from '../../components/groups/detail/ReviewAddModal';
-import { useSubmitProblemMutation } from '../../api/problem/hooks';
-import type { ProblemType } from '../../types/common';
+import { useProblemDetailQuery, useSubmitProblemMutation } from '../../api/problem/hooks';
+import { useReviewInclusionMutation } from '../../api/review/hooks';
 
 const SolvePage = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,7 @@ const SolvePage = () => {
   const from = searchParams.get('from');
 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [textAnswer, setTextAnswer] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [submissionResult, setSubmissionResult] = useState<null | {
@@ -28,37 +30,20 @@ const SolvePage = () => {
     isReviewStateChanged: boolean;
   }>(null);
   const submitMutation = useSubmitProblemMutation();
+  const reviewInclusionMutation = useReviewInclusionMutation();
 
-  const problemDetail: {
-    problemId: number;
-    question: string;
-    problemType: ProblemType;
-    studyRoomId: number;
-    choices: string[];
-    currentGate: 'GATE_1' | 'GATE_2' | 'GRADUATED';
-    nextReviewDate: string;
-    reviewCount: number;
-    includeInReview: boolean;
-  } = {
-    problemId: Number(questionId) || 1,
-    question: '자바의 접근 제어자가 아닌 것은?',
-    problemType: 'MCQ',
-    studyRoomId: 1,
-    choices: ['public', 'private', 'protected', 'friend'],
-    currentGate: 'GATE_1',
-    nextReviewDate: '2025-01-29',
-    reviewCount: 0,
-    includeInReview: true,
-  };
+  const problemId = Number(questionId) || 0;
+  const { data: problemDetail, isLoading } = useProblemDetailQuery(problemId);
 
-  const questionTypeLabel =
-    problemDetail.problemType === 'MCQ'
+  const questionTypeLabel = (
+    problemDetail?.problemType === 'MCQ'
       ? '객관식'
-      : problemDetail.problemType === 'OX'
+      : problemDetail?.problemType === 'OX'
         ? 'OX'
-        : problemDetail.problemType === 'SHORT'
+        : problemDetail?.problemType === 'SHORT'
           ? '단답형'
-          : '서술형';
+          : '서술형'
+  ) as string;
 
   const categoryLabel =
     from === 'group' ? '그룹 문제' : from === 'personal' ? '개인 문제' : '복습 문제';
@@ -68,17 +53,27 @@ const SolvePage = () => {
   };
 
   const handleSubmit = () => {
-    if (selectedAnswer === null) return;
+    if (!problemDetail) return;
 
-    // 답안 문자열 구성: MCQ=인덱스 문자열, OX='true'|'false', 기타=텍스트(데모에선 인덱스 문자열 유지)
-    let answer = String(selectedAnswer);
-    if (problemDetail.problemType === 'OX') {
+    let answer = '';
+    if (problemDetail.problemType === 'MCQ') {
+      if (selectedAnswer === null) return;
+      answer = String(selectedAnswer);
+    } else if (problemDetail.problemType === 'OX') {
+      if (selectedAnswer === null) return;
       answer = selectedAnswer === 0 ? 'true' : 'false';
+    } else {
+      // SHORT / SUBJECTIVE
+      const trimmed = textAnswer.trim();
+      if (!trimmed) return;
+      answer = trimmed;
     }
 
-    const pid = Number(problemDetail.problemId);
+    const pid = Number(problemDetail.problemId ?? 0);
+    const body = { answer };
+    console.log('submit problemId', pid, body);
     submitMutation.mutate(
-      { problemId: pid, submitProblemBody: { answer } },
+      { problemId: pid, submitProblemBody: body },
       {
         onSuccess: (res) => {
           setSubmissionResult({
@@ -116,9 +111,17 @@ const SolvePage = () => {
   };
 
   const handleAddToReview = () => {
-    // 개인 복습 문제셋에 추가하는 로직
-    setShowReviewModal(false);
-    handleGoBack();
+    const pid = Number(problemDetail?.problemId ?? 0);
+    if (!pid) return;
+    reviewInclusionMutation.mutate(
+      { problemId: pid, reviewInclusionBody: { includeInReview: true } },
+      {
+        onSuccess: () => {
+          setShowReviewModal(false);
+          handleGoBack();
+        },
+      },
+    );
   };
 
   const handleSkipReview = () => {
@@ -128,34 +131,62 @@ const SolvePage = () => {
 
   const isCorrect = submissionResult?.isCorrect ?? false;
 
+  if (isLoading || !problemDetail) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <SolveHeader
         onBack={handleGoBack}
         questionType={questionTypeLabel}
         category={categoryLabel}
-        title={problemDetail.question}
+        title={problemDetail?.question ?? ''}
       />
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {!showResult ? (
           <>
-            <SolveQuestion content={problemDetail.question} />
+            <SolveQuestion content={problemDetail?.question ?? ''} />
 
-            <SolveOptions
-              options={problemDetail.choices}
-              selectedAnswer={selectedAnswer}
-              onSelect={handleAnswerSelect}
-              onCancel={handleGoBack}
-              onSubmit={handleSubmit}
-              isSubmitDisabled={selectedAnswer === null || submitMutation.isPending}
-            />
+            {(problemDetail?.problemType === 'MCQ' || problemDetail?.problemType === 'OX') && (
+              <SolveOptions
+                options={
+                  problemDetail?.problemType === 'MCQ' ? (problemDetail?.choices ?? []) : ['O', 'X']
+                }
+                selectedAnswer={selectedAnswer}
+                onSelect={handleAnswerSelect}
+                onCancel={handleGoBack}
+                onSubmit={handleSubmit}
+                isSubmitDisabled={selectedAnswer === null || submitMutation.isPending}
+              />
+            )}
+
+            {(problemDetail?.problemType === 'SHORT' || problemDetail?.problemType === 'SUBJECTIVE') && (
+              <SolveTextAnswer
+                value={textAnswer}
+                onChange={setTextAnswer}
+                onCancel={handleGoBack}
+                onSubmit={handleSubmit}
+                isSubmitDisabled={textAnswer.trim().length === 0 || submitMutation.isPending}
+              />
+            )}
           </>
         ) : (
           <>
             <SolveResult
               isCorrect={isCorrect}
-              correctAnswerText={problemDetail.choices[0]}
+              correctAnswerText={problemDetail?.choices?.[0] ?? ''}
               explanation={submissionResult?.explanation ?? ''}
               aiFeedback={submissionResult?.aiFeedback ?? null}
               currentGate={submissionResult?.currentGate ?? null}
@@ -168,7 +199,7 @@ const SolvePage = () => {
 
       <ReviewAddModal
         open={showReviewModal}
-        title={problemDetail.question}
+        title={problemDetail?.question ?? ''}
         onSkip={handleSkipReview}
         onAdd={handleAddToReview}
       />
