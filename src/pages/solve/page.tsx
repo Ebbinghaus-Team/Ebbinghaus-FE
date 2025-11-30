@@ -172,7 +172,8 @@ const SolvePage = () => {
               />
             )}
 
-            {(problemDetail?.problemType === 'SHORT' || problemDetail?.problemType === 'SUBJECTIVE') && (
+            {(problemDetail?.problemType === 'SHORT' ||
+              problemDetail?.problemType === 'SUBJECTIVE') && (
               <SolveTextAnswer
                 value={textAnswer}
                 onChange={setTextAnswer}
