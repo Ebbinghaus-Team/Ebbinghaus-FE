@@ -11,18 +11,10 @@ import EssaySection from '../../components/create/subjective/SubjectiveSection';
 import ExplanationField from '../../components/create/common/ExplanationField';
 import SaveActionBar from '../../components/create/common/SaveActionBar';
 import { mapOxAnswerToBoolean, parseKeywordsToArray } from '../../utils/apiMappers';
-
-type ApiCreateProblemPayload = {
-  problemType?: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
-  question?: string;
-  explanation?: string;
-  choices?: string[];
-  correctChoiceIndex?: number;
-  answerBoolean?: boolean;
-  answerText?: string;
-  modelAnswerText?: string;
-  keywords?: string[];
-};
+import { useCreateProblemMutation } from '../../api/problem/hooks';
+import type { CreateProblemBody } from '../../types/problem';
+import { useGroupStudyRoomsQuery, usePersonalStudyRoomsQuery } from '../../api/studyRoom/hooks';
+import toast from 'react-hot-toast';
 
 export default function CreatePage() {
   const navigate = useNavigate();
@@ -50,52 +42,107 @@ export default function CreatePage() {
   const [keywords, setKeywords] = useState('');
   const [modelAnswer, setModelAnswer] = useState('');
 
-  const myGroups = [
-    { id: 1, name: '토익 스터디 그룹', members: 8 },
-    { id: 2, name: '공무원 시험 준비', members: 12 },
-    { id: 3, name: '컴활 1급 취득', members: 6 },
-  ];
+  const createProblemMutation = useCreateProblemMutation();
 
-  const myPersonalStudies = [
-    { id: 1, name: '영어 단어 암기', questions: 45 },
-    { id: 2, name: '수학 공식 정리', questions: 23 },
-    { id: 3, name: '역사 연표 암기', questions: 67 },
-  ];
+  const { data: groupRooms } = useGroupStudyRoomsQuery();
+  const { data: personalRooms } = usePersonalStudyRoomsQuery();
+
+  // MultipleChoiceSection에서 정답 "인덱스"를 전달해도 수용하도록 래핑
+  const handleSetCorrectAnswer = (val: unknown) => {
+    if (typeof val === 'number') {
+      setCorrectAnswer(String(val));
+      return;
+    }
+    if (typeof val === 'string') {
+      setCorrectAnswer(val);
+    }
+  };
+
+  const myGroups = (groupRooms?.rooms ?? []).map((r) => ({
+    id: r.studyRoomId,
+    name: r.name,
+    members: r.memberCount,
+  }));
+
+  const myPersonalStudies = (personalRooms?.rooms ?? []).map((r) => ({
+    id: r.studyRoomId,
+    name: r.name,
+    questions: r.totalProblems,
+  }));
 
   // 쿼리 파라미터는 초기 상태로만 반영 (렌더 내 파생), 이후 사용자가 변경 가능
 
   const handleSave = () => {
-    // API 스펙에 맞춘 payload 구성
-    const apiProblemType = questionType || undefined;
+    const apiProblemType = questionType;
 
-    const payload: ApiCreateProblemPayload = {
-      problemType: apiProblemType,
-      question,
-      explanation,
-    };
-
+    let body: CreateProblemBody | null = null;
     if (apiProblemType === 'MCQ') {
-      payload.choices = options;
-      payload.correctChoiceIndex = Number(correctAnswer);
+      const trimmedChoices = options.map((c) => c.trim());
+      const idx = Number.parseInt(correctAnswer, 10);
+      if (!Number.isFinite(idx) || Number.isNaN(idx) || idx < 0 || idx >= trimmedChoices.length) {
+        toast.error('객관식 정답을 선택해주세요.');
+        return;
+      }
+      if (!trimmedChoices.every((c) => c.length > 0)) {
+        toast.error('선택지는 비어 있을 수 없습니다.');
+        return;
+      }
+      body = {
+        problemType: 'MCQ',
+        question,
+        explanation,
+        choices: trimmedChoices,
+        correctChoiceIndex: idx,
+      };
     } else if (apiProblemType === 'OX') {
-      payload.answerBoolean = mapOxAnswerToBoolean(oxAnswer as 'O' | 'X');
+      body = {
+        problemType: 'OX',
+        question,
+        explanation,
+        answerBoolean: mapOxAnswerToBoolean(oxAnswer as 'O' | 'X'),
+      };
     } else if (apiProblemType === 'SHORT') {
-      payload.answerText = shortAnswer;
+      body = {
+        problemType: 'SHORT',
+        question,
+        explanation,
+        answerText: shortAnswer,
+      };
     } else if (apiProblemType === 'SUBJECTIVE') {
-      payload.modelAnswerText = modelAnswer;
-      payload.keywords = parseKeywordsToArray(keywords);
+      body = {
+        problemType: 'SUBJECTIVE',
+        question,
+        explanation,
+        modelAnswerText: modelAnswer,
+        keywords: parseKeywordsToArray(keywords),
+      };
     }
 
-    // TODO: API 연동 시 payload 전송
+    if (!body) return;
 
-    // 저장 후 해당 위치로 이동
-    if (saveLocation === 'group' && selectedGroup) {
-      navigate(`/groups/${selectedGroup}`);
-    } else if (saveLocation === 'personal' && selectedPersonalStudy) {
-      navigate(`/personal-study/${selectedPersonalStudy}`);
-    } else {
-      navigate('/dashboard');
-    }
+    const studyRoomId =
+      saveLocation === 'group'
+        ? Number(selectedGroup)
+        : saveLocation === 'personal'
+          ? Number(selectedPersonalStudy)
+          : NaN;
+
+    if (!Number.isFinite(studyRoomId)) return;
+
+    createProblemMutation.mutate(
+      { studyRoomId, createProblemBody: body },
+      {
+        onSuccess: () => {
+          if (saveLocation === 'group' && selectedGroup) {
+            navigate(`/groups/${selectedGroup}`);
+          } else if (saveLocation === 'personal' && selectedPersonalStudy) {
+            navigate(`/personal-study/${selectedPersonalStudy}`);
+          } else {
+            navigate('/dashboard');
+          }
+        },
+      },
+    );
   };
 
   const updateOption = (index: number, value: string) => {
@@ -174,7 +221,7 @@ export default function CreatePage() {
                   addOption={addOption}
                   removeOption={removeOption}
                   correctAnswer={correctAnswer}
-                  setCorrectAnswer={setCorrectAnswer}
+                  setCorrectAnswer={handleSetCorrectAnswer as (v: string | number) => void}
                 />
               )}
 

@@ -1,13 +1,23 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../../api/auth/hooks';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const loginMutation = useLoginMutation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 로그인 로직 구현
+    loginMutation.mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          navigate('/', { replace: true });
+        },
+      },
+    );
   };
 
   return (
@@ -49,9 +59,10 @@ const LoginPage = () => {
             </div>
             <button
               type="submit"
-              className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-6 py-3 text-lg w-full"
+              disabled={loginMutation.isPending}
+              className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-6 py-3 text-lg w-full disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              로그인
+              {loginMutation.isPending ? '로그인 중...' : '로그인'}
             </button>
           </form>
 

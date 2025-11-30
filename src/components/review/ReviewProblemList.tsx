@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { mapGateToDisplayLabel } from '../../utils/apiMappers';
+import { formatDate } from '../../utils/date';
 
 export type ReviewProblem = {
   problemId: number;
   question: string;
   problemType: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
-  gate: 'GATE_1' | 'GATE_2';
+  gate: 'GATE_1' | 'GATE_2' | 'GRADUATED';
   nextReviewDate: string;
   attemptStatus: 'NOT_ATTEMPTED' | 'CORRECT' | 'INCORRECT';
   subject: string;
@@ -30,17 +31,22 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
   return (
     <div className="space-y-4">
       {problems.map((p) => (
-        <div key={p.problemId} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div
+          key={p.problemId}
+          className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+        >
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(mapGateToDisplayLabel(p.gate))}`}>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(mapGateToDisplayLabel(p.gate))}`}
+                >
                   {mapGateToDisplayLabel(p.gate)}
                 </span>
                 <span className="text-sm text-gray-500">{p.subject}</span>
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-1">{p.question}</h3>
-              <p className="text-sm text-gray-500">복습 예정일: {p.nextReviewDate}</p>
+              <p className="text-sm text-gray-500">복습 예정일: {formatDate(p.nextReviewDate)}</p>
             </div>
             <div className="flex items-center space-x-3">
               {p.attemptStatus === 'CORRECT' ? (
@@ -62,5 +68,3 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
     </div>
   );
 }
-
-

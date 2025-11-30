@@ -17,6 +17,16 @@ export default function SolveResult({
   nextReviewDate,
   onConfirm,
 }: SolveResultProps) {
+  const format = (value: string | null) => {
+    if (!value) return '-';
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return value;
+    return d.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
   return (
     <>
       <div className="text-center mb-6">
@@ -43,7 +53,7 @@ export default function SolveResult({
           <p className="text-gray-700">{explanation}</p>
           {aiFeedback && <p className="text-gray-700 mt-2">AI 피드백: {aiFeedback}</p>}
           <div className="text-xs text-gray-500 mt-2">
-            현재 관문: {currentGate ?? '-'} / 다음 복습일: {nextReviewDate ?? '-'}
+            현재 관문: {currentGate ?? '-'} / 다음 복습일: {format(nextReviewDate)}
           </div>
         </div>
       </div>

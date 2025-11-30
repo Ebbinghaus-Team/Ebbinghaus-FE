@@ -58,10 +58,22 @@ export type SubmitProblemVariables = {
 export type SubmitProblemResponse = {
   isCorrect: boolean;
   explanation: string;
-  aiFeedback: string;
-  currentGate: string;
-  reviewCount: number;
-  nextReviewDate: string;
+  aiFeedback: string | null;
+  currentGate: 'GATE_1' | 'GATE_2' | 'GRADUATED' | null;
+  reviewCount: number | null;
+  nextReviewDate: string | null;
   isFirstAttempt: boolean;
   isReviewStateChanged: boolean;
+};
+
+export type ProblemDetailResponse = {
+  problemId: number;
+  question: string;
+  problemType: ProblemType;
+  studyRoomId: number;
+  choices?: string[]; // MCQ만 포함
+  currentGate: 'GATE_1' | 'GATE_2' | 'GRADUATED' | 'NOT_IN_REVIEW' | null;
+  nextReviewDate: string | null;
+  reviewCount: number | null;
+  includeInReview: boolean | null;
 };
