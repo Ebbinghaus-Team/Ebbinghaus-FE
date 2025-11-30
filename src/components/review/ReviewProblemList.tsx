@@ -5,7 +5,7 @@ export type ReviewProblem = {
   problemId: number;
   question: string;
   problemType: 'MCQ' | 'OX' | 'SHORT' | 'SUBJECTIVE';
-  gate: 'GATE_1' | 'GATE_2';
+  gate: 'GATE_1' | 'GATE_2' | 'GRADUATED';
   nextReviewDate: string;
   attemptStatus: 'NOT_ATTEMPTED' | 'CORRECT' | 'INCORRECT';
   subject: string;
@@ -30,11 +30,16 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
   return (
     <div className="space-y-4">
       {problems.map((p) => (
-        <div key={p.problemId} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+        <div
+          key={p.problemId}
+          className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+        >
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(mapGateToDisplayLabel(p.gate))}`}>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(mapGateToDisplayLabel(p.gate))}`}
+                >
                   {mapGateToDisplayLabel(p.gate)}
                 </span>
                 <span className="text-sm text-gray-500">{p.subject}</span>
@@ -62,5 +67,3 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
     </div>
   );
 }
-
-
