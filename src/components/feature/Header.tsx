@@ -1,8 +1,15 @@
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLogoutMutation } from '../../api/auth/hooks';
+import { usePersonalStudyRoomsQuery } from '../../api/studyRoom/hooks';
+import toast from 'react-hot-toast';
 
 export default function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const logoutMutation = useLogoutMutation();
+  const { data: personalRooms } = usePersonalStudyRoomsQuery();
+  const hasPersonalRoom = (personalRooms?.rooms?.length ?? 0) > 0;
 
   const isActive = (path: string) => {
     if (path === '/') {
@@ -33,12 +40,18 @@ export default function Header() {
               홈
             </Link>
             <Link 
-              to="/create" 
+              to={hasPersonalRoom ? "/create" : "#"}
+              onClick={(e) => {
+                if (!hasPersonalRoom) {
+                  e.preventDefault();
+                  toast.error('개인 공부방이 없습니다. 먼저 개인 공부방을 생성하세요.');
+                }
+              }}
               className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 isActive('/create') 
                   ? 'text-blue-600 bg-blue-50' 
                   : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-              }`}
+              } ${!hasPersonalRoom ? 'opacity-60 cursor-not-allowed' : ''}`}
             >
               문제 만들기
             </Link>
@@ -90,6 +103,17 @@ export default function Header() {
                 로그인
               </button>
             </Link>
+            <button
+              onClick={() =>
+                logoutMutation.mutate(undefined, {
+                  onSuccess: () => navigate('/login', { replace: true }),
+                })
+              }
+              disabled={logoutMutation.isPending}
+              className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 px-3 py-1.5 text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              로그아웃
+            </button>
           </div>
         </div>
       </div>

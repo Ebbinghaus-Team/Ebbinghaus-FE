@@ -4,8 +4,10 @@ type CreateGroupModalProps = {
   open: boolean;
   groupName: string;
   groupDescription: string;
+  groupCategory: string;
   onChangeGroupName: (value: string) => void;
   onChangeGroupDescription: (value: string) => void;
+  onChangeGroupCategory: (value: string) => void;
   onClose: () => void;
   onCreate: () => void;
 };
@@ -14,8 +16,10 @@ export default function CreateGroupModal({
   open,
   groupName,
   groupDescription,
+  groupCategory,
   onChangeGroupName,
   onChangeGroupDescription,
+  onChangeGroupCategory,
   onClose,
   onCreate,
 }: CreateGroupModalProps) {
@@ -37,6 +41,16 @@ export default function CreateGroupModal({
               value={groupName}
               onChange={(e) => onChangeGroupName(e.target.value)}
               placeholder="그룹 이름을 입력하세요"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">카테고리</label>
+            <input
+              type="text"
+              value={groupCategory}
+              onChange={(e) => onChangeGroupCategory(e.target.value)}
+              placeholder="예: 코딩테스트, 면접 등"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
