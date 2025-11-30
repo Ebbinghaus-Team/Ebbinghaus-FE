@@ -154,7 +154,16 @@ const SolvePage = () => {
         title={problemDetail?.question ?? ''}
       />
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 relative">
+        {!showResult &&
+          (problemDetail?.problemType === 'SHORT' || problemDetail?.problemType === 'SUBJECTIVE') &&
+          submitMutation.isPending && (
+            <div className="absolute inset-0 z-10 bg-white/70 backdrop-blur-[1px] flex flex-col items-center justify-center text-center p-6 rounded-lg">
+              <i className="ri-loader-4-line animate-spin text-3xl text-blue-600 mb-3"></i>
+              <div className="text-gray-900 font-medium mb-1">채점 중입니다...</div>
+              <div className="text-gray-600 text-sm">AI 채점은 최대 1분이 걸릴 수 있어요.</div>
+            </div>
+          )}
         {!showResult ? (
           <>
             <SolveQuestion content={problemDetail?.question ?? ''} />
