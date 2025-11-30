@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { mapGateToDisplayLabel } from '../../../utils/apiMappers';
+import { formatDateTime } from '../../../utils/date';
 import { usePersonalStudyRoomProblemsQuery } from '../../../api/studyRoom/hooks';
 import type { ApiReviewGate } from '../../../utils/apiMappers';
 
@@ -155,8 +156,10 @@ const PersonalStudyDetailPage = () => {
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 mb-1">{p.question}</h3>
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <span>작성일: {p.createdAt}</span>
-                    {p.lastReviewedAt && <span>마지막 복습: {p.lastReviewedAt}</span>}
+                    <span>작성일: {formatDateTime(p.createdAt)}</span>
+                    {p.lastReviewedAt && (
+                      <span>마지막 복습: {formatDateTime(p.lastReviewedAt)}</span>
+                    )}
                     <span>복습 횟수: {p.reviewCount}회</span>
                   </div>
                 </div>

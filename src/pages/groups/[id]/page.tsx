@@ -8,7 +8,10 @@ import QuestionSetList, {
 } from '../../../components/groups/detail/QuestionSetList';
 import MembersSidebar from '../../../components/groups/detail/MembersSidebar';
 import ReviewAddModal from '../../../components/groups/detail/ReviewAddModal';
-import { useGroupStudyRoomProblemsQuery, useGroupStudyRoomMembersQuery } from '../../../api/studyRoom/hooks';
+import {
+  useGroupStudyRoomProblemsQuery,
+  useGroupStudyRoomMembersQuery,
+} from '../../../api/studyRoom/hooks';
 
 const GroupDetailPage = () => {
   const { id } = useParams();
@@ -18,8 +21,10 @@ const GroupDetailPage = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<QuestionSet | null>(null);
   const [codeCopied, setCodeCopied] = useState(false);
 
-  const { data: problemsData, isLoading: loadingProblems } = useGroupStudyRoomProblemsQuery(studyRoomId);
-  const { data: membersData, isLoading: loadingMembers } = useGroupStudyRoomMembersQuery(studyRoomId);
+  const { data: problemsData, isLoading: loadingProblems } =
+    useGroupStudyRoomProblemsQuery(studyRoomId);
+  const { data: membersData, isLoading: loadingMembers } =
+    useGroupStudyRoomMembersQuery(studyRoomId);
 
   const filterOptions = ['전체', '안 푼 문제', '1차 관문', '2차 관문', '완료'];
 
@@ -31,15 +36,26 @@ const GroupDetailPage = () => {
     return '안 푼 문제';
   };
 
+  const toProblemTypeLabel = (problemType: string) => {
+    if (problemType === 'MCQ') return '객관식';
+    if (problemType === 'OX') return 'OX';
+    if (problemType === 'SHORT') return '단답형';
+    if (problemType === 'SUBJECTIVE') return '서술형';
+    return problemType;
+  };
+
   const questionSets: QuestionSet[] =
     problemsData?.problems.map((p) => ({
       id: p.problemId,
       title: p.question,
-      description: p.problemType,
+      description: toProblemTypeLabel(p.problemType),
       questionCount: 1,
       author: p.creatorName,
       createdAt: p.createdAt,
       status: toStatusLabel(p.reviewGate),
+      reviewCount: p.reviewCount,
+      isMyProblem: p.isMyProblem,
+      lastReviewedAt: p.lastReviewedAt,
     })) ?? [];
 
   const getFilterCount = (filter: string) => {
@@ -119,13 +135,19 @@ const GroupDetailPage = () => {
   };
   const totalQuestionSets = problemsData.dashboard.totalCount;
   const unsolvedQuestionSets = problemsData.dashboard.unreviewedCount;
-  const solvedQuestionSets = problemsData.problems.filter((p) => p.reviewGate === 'GRADUATED').length;
+  const solvedQuestionSets = problemsData.problems.filter(
+    (p) => p.reviewGate === 'GRADUATED',
+  ).length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex gap-6">
         <div className="flex-1">
-          <GroupInfoHeader group={headerGroup} codeCopied={codeCopied} onCopyCode={handleCopyCode} />
+          <GroupInfoHeader
+            group={headerGroup}
+            codeCopied={codeCopied}
+            onCopyCode={handleCopyCode}
+          />
           <GroupStats
             totalQuestionSets={totalQuestionSets}
             unsolvedQuestionSets={unsolvedQuestionSets}
