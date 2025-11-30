@@ -32,7 +32,7 @@ export async function setReviewInclusion(
   problemId: number,
   body: ReviewInclusionBody,
 ): Promise<ReviewInclusionResponse> {
-  const res = await fetch(`${BASE_URL}/problems/${problemId}/review-inclusion`, {
+  const res = await fetch(`${BASE_URL}/${problemId}/review-inclusion`, {
     method: 'PATCH',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
