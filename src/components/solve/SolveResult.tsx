@@ -27,6 +27,15 @@ export default function SolveResult({
       day: '2-digit',
     });
   };
+  const formatGate = (gate: string | null) => {
+    if (!gate) return null;
+    if (gate === 'GATE_1') return '1차 관문';
+    if (gate === 'GATE_2') return '2차 관문';
+    if (gate === 'GRADUATED') return '완료';
+    return gate;
+  };
+  const gateLabel = formatGate(currentGate);
+  const nextDateLabel = nextReviewDate ? format(nextReviewDate) : null;
   return (
     <>
       <div className="text-center mb-6">
@@ -44,7 +53,7 @@ export default function SolveResult({
         <h2 className={`text-2xl font-bold mb-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
           {isCorrect ? '정답입니다!' : '틀렸습니다'}
         </h2>
-        <p className="text-gray-600">정답: {correctAnswerText}</p>
+        {correctAnswerText && <p className="text-gray-600">정답: {correctAnswerText}</p>}
       </div>
 
       <div className="mb-6">
@@ -52,9 +61,13 @@ export default function SolveResult({
         <div className="bg-gray-50 rounded-lg p-4">
           <p className="text-gray-700">{explanation}</p>
           {aiFeedback && <p className="text-gray-700 mt-2">AI 피드백: {aiFeedback}</p>}
-          <div className="text-xs text-gray-500 mt-2">
-            현재 관문: {currentGate ?? '-'} / 다음 복습일: {format(nextReviewDate)}
-          </div>
+          {(gateLabel || nextDateLabel) && (
+            <div className="text-xs text-gray-500 mt-2">
+              {gateLabel && <span>현재 관문: {gateLabel}</span>}
+              {gateLabel && nextDateLabel && <span> / </span>}
+              {nextDateLabel && <span>다음 복습일: {nextDateLabel}</span>}
+            </div>
+          )}
         </div>
       </div>
 

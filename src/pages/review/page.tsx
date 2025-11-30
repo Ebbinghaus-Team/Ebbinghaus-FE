@@ -6,6 +6,7 @@ import ReviewFilter from '../../components/review/ReviewFilter';
 import ReviewProblemList, { type ReviewProblem } from '../../components/review/ReviewProblemList';
 import { useTodayReviewProblemsQuery } from '../../api/review/hooks';
 import { useAuthStatus } from '../../hooks/useAuthStatus';
+import toast from 'react-hot-toast';
 
 const ReviewPage = () => {
   const [activeFilter, setActiveFilter] = useState('전체');
@@ -15,6 +16,7 @@ const ReviewPage = () => {
 
   useEffect(() => {
     if (!authLoading && !isLoggedIn) {
+      toast.error('로그인이 필요합니다.');
       navigate('/login', { replace: true });
     }
   }, [authLoading, isLoggedIn, navigate]);

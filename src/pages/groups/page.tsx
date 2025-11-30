@@ -8,6 +8,7 @@ import { useGroupStudyRoomsQuery } from '../../api/studyRoom/hooks';
 import { useCreateGroupStudyRoomMutation } from '../../api/studyRoom/hooks';
 import { useJoinGroupStudyRoomMutation } from '../../api/studyRoom/hooks';
 import { useAuthStatus } from '../../hooks/useAuthStatus';
+import toast from 'react-hot-toast';
 
 export default function GroupsPage() {
   const [showJoinModal, setShowJoinModal] = useState(false);
@@ -61,6 +62,7 @@ export default function GroupsPage() {
 
   useEffect(() => {
     if (!authLoading && !isLoggedIn) {
+      toast.error('로그인이 필요합니다.');
       navigate('/login', { replace: true });
     }
   }, [authLoading, isLoggedIn, navigate]);
