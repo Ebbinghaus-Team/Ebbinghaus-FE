@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { usePersonalStudyRoomsQuery } from '../../../api/studyRoom/hooks';
+import toast from 'react-hot-toast';
 
 type Group = {
   title: string;
@@ -14,6 +16,8 @@ type GroupInfoHeaderProps = {
 };
 
 export default function GroupInfoHeader({ group, codeCopied, onCopyCode }: GroupInfoHeaderProps) {
+  const { data: personalRooms } = usePersonalStudyRoomsQuery();
+  const hasPersonalRoom = (personalRooms?.rooms?.length ?? 0) > 0;
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
@@ -41,8 +45,16 @@ export default function GroupInfoHeader({ group, codeCopied, onCopyCode }: Group
               </>
             )}
           </button>
-          <Link to="/create">
-            <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base">
+          <Link
+            to={hasPersonalRoom ? '/create' : '#'}
+            onClick={(e) => {
+              if (!hasPersonalRoom) {
+                e.preventDefault();
+                toast.error('개인 공부방이 없습니다. 먼저 개인 공부방을 생성하세요.');
+              }
+            }}
+          >
+            <button className={`inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base ${!hasPersonalRoom ? 'opacity-60 cursor-not-allowed' : ''}`}>
               <i className="ri-add-line mr-2"></i>문제 만들기
             </button>
           </Link>
