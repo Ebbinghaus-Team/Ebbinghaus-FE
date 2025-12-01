@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 export default function HomePage() {
@@ -10,12 +9,15 @@ export default function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-left">
               <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                단기 기억을<br />
-                <span className="text-blue-600">장기 기억으로</span><br />
+                단기 기억을
+                <br />
+                <span className="text-blue-600">장기 기억으로</span>
+                <br />
                 전환하는 학습 루프
               </h1>
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                문제를 직접 만들고, 과학적 복습 주기로 반복 학습하여<br />
+                문제를 직접 만들고, 과학적 복습 주기로 반복 학습하여
+                <br />
                 진정한 이해와 장기 기억을 만들어보세요
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -30,13 +32,6 @@ export default function HomePage() {
                   </button>
                 </Link>
               </div>
-            </div>
-            <div className="relative">
-              <img 
-                alt="학습하는 학생" 
-                className="w-full h-auto rounded-2xl shadow-2xl object-cover" 
-                src="https://readdy.ai/api/search-image?query=Modern%20student%20studying%20with%20digital%20learning%20tools%2C%20clean%20minimalist%20background%2C%20bright%20lighting%2C%20focused%20concentration%2C%20books%20and%20tablet%20on%20desk%2C%20productive%20learning%20environment&width=600&height=400&seq=hero1&orientation=landscape"
-              />
             </div>
           </div>
         </div>
@@ -75,18 +70,14 @@ export default function HomePage() {
                 <i className="ri-question-line text-2xl text-red-600"></i>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">수동적 학습</h3>
-              <p className="text-gray-600 text-sm">
-                단순 암기 위주로 진정한 이해 없이 학습합니다
-              </p>
+              <p className="text-gray-600 text-sm">단순 암기 위주로 진정한 이해 없이 학습합니다</p>
             </div>
             <div className="text-center p-6 rounded-xl bg-red-50 border border-red-100">
               <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
                 <i className="ri-team-line text-2xl text-red-600"></i>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">고립된 학습</h3>
-              <p className="text-gray-600 text-sm">
-                혼자 공부하며 동기부여와 지속성이 부족합니다
-              </p>
+              <p className="text-gray-600 text-sm">혼자 공부하며 동기부여와 지속성이 부족합니다</p>
             </div>
           </div>
         </div>
@@ -103,9 +94,9 @@ export default function HomePage() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <img 
-                alt="망각곡선 연구" 
-                className="w-full h-auto rounded-xl shadow-lg object-cover" 
+              <img
+                alt="망각곡선 연구"
+                className="w-full h-auto rounded-xl shadow-lg object-cover"
                 src="/assets/combating-the-forgetting-curve.png"
               />
             </div>
@@ -113,7 +104,8 @@ export default function HomePage() {
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">에빙하우스 망각곡선</h3>
                 <p className="text-gray-600 mb-4">
-                  학습 후 1시간이면 50%, 하루가 지나면 70%를 망각합니다. 하지만 적절한 시점에 복습하면 기억 유지 기간이 기하급수적으로 증가합니다.
+                  학습 후 1시간이면 50%, 하루가 지나면 70%를 망각합니다. 하지만 적절한 시점에
+                  복습하면 기억 유지 기간이 기하급수적으로 증가합니다.
                 </p>
                 <div className="text-sm text-blue-600 font-medium">
                   1일 → 3일 → 1주 → 2주 → 1개월
@@ -122,7 +114,8 @@ export default function HomePage() {
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">메타인지 강화</h3>
                 <p className="text-gray-600 mb-4">
-                  García-García et al.(2014) 연구에 따르면, 문제 생성 과정은 메타인지를 강화하고 자기 조절 능력을 향상시킵니다.
+                  García-García et al.(2014) 연구에 따르면, 문제 생성 과정은 메타인지를 강화하고
+                  자기 조절 능력을 향상시킵니다.
                 </p>
                 <div className="text-sm text-blue-600 font-medium">
                   문제 생성 → 깊은 이해 → 장기 기억
