@@ -3,7 +3,7 @@ import { useState } from 'react';
 const NOTION_PAGE_URL =
   'https://fine-gooseberry-ef4.notion.site/ebd/2bcd00d60fae80e89765febdbaf8df04';
 
-function ServiceInfo() {
+const TeamInfoPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
@@ -25,6 +25,6 @@ function ServiceInfo() {
       />
     </div>
   );
-}
+};
 
-export default ServiceInfo;
+export default TeamInfoPage;
