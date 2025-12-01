@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -10,16 +9,16 @@ export default function Footer() {
             <div className="text-xl font-bold text-blue-600 mr-8">StudyLoop</div>
           </div>
           <div className="flex items-center space-x-6 text-sm text-gray-600">
-            <Link to="/team" className="hover:text-blue-600 transition-colors">
+            <Link to="/team-info" className="hover:text-blue-600 transition-colors">
               팀 소개
             </Link>
             <Link to="/contact" className="hover:text-blue-600 transition-colors">
               문의하기
             </Link>
-            <a 
-              href="https://github.com" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href="https://github.com/Ebbinghaus-Team"
+              target="_blank"
+              rel="noopener noreferrer"
               className="hover:text-blue-600 transition-colors"
             >
               GitHub
@@ -27,19 +26,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-500">
-            © 2024 StudyLoop. All rights reserved.
-          </p>
-          <div className="mt-2">
-            <a 
-              href="https://readdy.ai/?origin=logo" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
-            >
-              Powered by Readdy
-            </a>
-          </div>
+          <p className="text-sm text-gray-500">© 2024 StudyLoop. All rights reserved.</p>
         </div>
       </div>
     </footer>
