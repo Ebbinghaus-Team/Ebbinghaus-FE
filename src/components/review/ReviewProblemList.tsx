@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { CheckCircle2, XCircle } from 'lucide-react';
 import { mapGateToDisplayLabel } from '../../utils/apiMappers';
 import { formatDate } from '../../utils/date';
 
@@ -39,7 +40,9 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(mapGateToDisplayLabel(p.gate))}`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getStageColor(
+                    mapGateToDisplayLabel(p.gate),
+                  )}`}
                 >
                   {mapGateToDisplayLabel(p.gate)}
                 </span>
@@ -49,14 +52,26 @@ export default function ReviewProblemList({ problems }: ReviewProblemListProps) 
               <p className="text-sm text-gray-500">복습 예정일: {formatDate(p.nextReviewDate)}</p>
             </div>
             <div className="flex items-center space-x-3">
-              {p.attemptStatus === 'CORRECT' ? (
+              {p.attemptStatus === 'CORRECT' && (
                 <div className="flex items-center text-green-600">
-                  <i className="ri-check-circle-fill text-xl mr-2"></i>
-                  <span className="text-sm font-medium">완료</span>
+                  <CheckCircle2 className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">정답</span>
                 </div>
-              ) : (
+              )}
+
+              {p.attemptStatus === 'INCORRECT' && (
+                <div className="flex items-center text-red-500">
+                  <XCircle className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">오답</span>
+                </div>
+              )}
+
+              {p.attemptStatus === 'NOT_ATTEMPTED' && (
                 <Link to={`/solve?id=${p.problemId}`}>
-                  <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base">
+                  <button
+                    type="button"
+                    className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base"
+                  >
                     문제 풀기
                   </button>
                 </Link>
