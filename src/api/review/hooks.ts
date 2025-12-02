@@ -13,7 +13,6 @@ export const useTodayReviewProblemsQuery = () =>
   useQuery<TodayReviewProblemResponse, ApiError>({
     queryKey: ['today', 'review', 'problems'],
     queryFn: getTodayReviewProblems,
-    staleTime: Infinity,
   });
 
 export const useReviewInclusionMutation = () =>
