@@ -1,0 +1,1 @@
+function e(r){return r==="GATE_1"?"1차관문":r==="GATE_2"?"2차관문":"완료"}function t(r){return r?r.split(/[,\n]/g).map(n=>n.trim()).filter(n=>n.length>0):[]}function a(r){return r==="O"}export{e as a,a as m,t as p};
