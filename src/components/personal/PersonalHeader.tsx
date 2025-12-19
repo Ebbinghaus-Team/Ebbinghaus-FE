@@ -1,5 +1,3 @@
-import React from 'react';
-
 type PersonalHeaderProps = {
   onClickCreate: () => void;
 };
@@ -20,5 +18,3 @@ export default function PersonalHeader({ onClickCreate }: PersonalHeaderProps) {
     </div>
   );
 }
-
-

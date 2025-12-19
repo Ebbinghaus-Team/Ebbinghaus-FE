@@ -1,5 +1,3 @@
-import React from 'react';
-
 type GroupsHeaderProps = {
   onClickJoin: () => void;
   onClickCreate: () => void;
@@ -31,5 +29,3 @@ export default function GroupsHeader({ onClickJoin, onClickCreate }: GroupsHeade
     </div>
   );
 }
-
-

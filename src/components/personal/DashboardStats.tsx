@@ -1,5 +1,3 @@
-import React from 'react';
-
 type DashboardStatsProps = {
   totalRooms: number;
   totalQuestions: number;
@@ -37,5 +35,3 @@ export default function DashboardStats({
     </div>
   );
 }
-
-

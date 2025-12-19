@@ -1,5 +1,3 @@
-import React from 'react';
-
 type CreateRoomModalProps = {
   open: boolean;
   roomName: string;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 type Member = {
   userId: number;
   username: string;
@@ -22,14 +20,19 @@ export default function MembersSidebar({ members }: MembersSidebarProps) {
 
         <div className="space-y-3 max-h-[calc(100vh-200px)] overflow-y-auto">
           {sorted.map((member) => (
-            <div key={member.userId} className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors">
+            <div
+              key={member.userId}
+              className="bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
+            >
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
                   <i className="ri-user-line text-blue-600 text-xl"></i>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-1">
-                    <h4 className="text-sm font-semibold text-gray-900 truncate">{member.username}</h4>
+                    <h4 className="text-sm font-semibold text-gray-900 truncate">
+                      {member.username}
+                    </h4>
                     {member.isOwner && (
                       <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs font-medium rounded">
                         방장
@@ -45,5 +48,3 @@ export default function MembersSidebar({ members }: MembersSidebarProps) {
     </div>
   );
 }
-
-

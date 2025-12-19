@@ -1,5 +1,3 @@
-import React from 'react';
-
 type JoinGroupModalProps = {
   open: boolean;
   joinCode: string;
@@ -34,7 +32,9 @@ export default function JoinGroupModal({
             placeholder="예: A3K9XP2M"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono"
           />
-          <p className="text-sm text-gray-500 mt-1">그룹 관리자로부터 받은 그룹 코드를 입력해주세요</p>
+          <p className="text-sm text-gray-500 mt-1">
+            그룹 관리자로부터 받은 그룹 코드를 입력해주세요
+          </p>
         </div>
         <div className="flex space-x-3">
           <button
@@ -43,7 +43,10 @@ export default function JoinGroupModal({
           >
             취소
           </button>
-          <button onClick={onJoin} className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button
+            onClick={onJoin}
+            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
             참여하기
           </button>
         </div>
@@ -51,5 +54,3 @@ export default function JoinGroupModal({
     </div>
   );
 }
-
-

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export type GroupCardData = {
@@ -21,9 +20,7 @@ type GroupCardProps = {
 
 export default function GroupCard({ group, copiedCode, onCopyCode }: GroupCardProps) {
   const progress =
-    group.totalProblems > 0
-      ? Math.round((group.graduatedProblems / group.totalProblems) * 100)
-      : 0;
+    group.totalProblems > 0 ? Math.round((group.graduatedProblems / group.totalProblems) * 100) : 0;
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-shadow h-full">
@@ -35,9 +32,7 @@ export default function GroupCard({ group, copiedCode, onCopyCode }: GroupCardPr
                 {group.category}
               </span>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
-              {group.name}
-            </h3>
+            <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">{group.name}</h3>
           </div>
         </div>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{group.description}</p>
@@ -98,5 +93,3 @@ export default function GroupCard({ group, copiedCode, onCopyCode }: GroupCardPr
     </div>
   );
 }
-
-

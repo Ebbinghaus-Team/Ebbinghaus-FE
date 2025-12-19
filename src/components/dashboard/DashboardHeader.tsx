@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function DashboardHeader() {
   return (
     <div className="mb-8">
@@ -8,5 +6,3 @@ export default function DashboardHeader() {
     </div>
   );
 }
-
-

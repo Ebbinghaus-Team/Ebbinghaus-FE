@@ -1,5 +1,3 @@
-import React from 'react';
-
 type GroupStatsProps = {
   totalQuestionSets: number;
   unsolvedQuestionSets: number;
@@ -28,5 +26,3 @@ export default function GroupStats({
     </div>
   );
 }
-
-

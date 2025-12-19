@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGroupStudyRoomsQuery, usePersonalStudyRoomsQuery } from '../../../api/studyRoom/hooks';
 import toast from 'react-hot-toast';
@@ -57,7 +56,9 @@ export default function GroupInfoHeader({ group, codeCopied, onCopyCode }: Group
               }
             }}
           >
-            <button className={`inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base ${!hasAnyRoom ? 'opacity-60 cursor-not-allowed' : ''}`}>
+            <button
+              className={`inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-4 py-2 text-base ${!hasAnyRoom ? 'opacity-60 cursor-not-allowed' : ''}`}
+            >
               <i className="ri-add-line mr-2"></i>문제 만들기
             </button>
           </Link>
@@ -66,5 +67,3 @@ export default function GroupInfoHeader({ group, codeCopied, onCopyCode }: Group
     </div>
   );
 }
-
-

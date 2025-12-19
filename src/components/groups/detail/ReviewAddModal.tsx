@@ -1,5 +1,3 @@
-import React from 'react';
-
 type ReviewAddModalProps = {
   open: boolean;
   title: string;
@@ -21,15 +19,25 @@ export default function ReviewAddModal({ open, title, onSkip, onAdd }: ReviewAdd
         </div>
 
         <div className="bg-blue-50 rounded-lg p-4 mb-6">
-          <h4 className="text-sm font-medium text-blue-900 mb-2">복습 문제셋에 추가하시겠습니까?</h4>
-          <p className="text-xs text-blue-700">개인 복습 문제셋에 추가하면 나중에 다시 복습할 수 있습니다.</p>
+          <h4 className="text-sm font-medium text-blue-900 mb-2">
+            복습 문제셋에 추가하시겠습니까?
+          </h4>
+          <p className="text-xs text-blue-700">
+            개인 복습 문제셋에 추가하면 나중에 다시 복습할 수 있습니다.
+          </p>
         </div>
 
         <div className="flex space-x-3">
-          <button onClick={onSkip} className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+          <button
+            onClick={onSkip}
+            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+          >
             건너뛰기
           </button>
-          <button onClick={onAdd} className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          <button
+            onClick={onAdd}
+            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
             복습에 추가
           </button>
         </div>
@@ -37,5 +45,3 @@ export default function ReviewAddModal({ open, title, onSkip, onAdd }: ReviewAdd
     </div>
   );
 }
-
-

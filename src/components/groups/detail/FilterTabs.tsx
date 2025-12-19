@@ -1,5 +1,3 @@
-import React from 'react';
-
 type FilterTabsProps = {
   filters: string[];
   activeFilter: string;

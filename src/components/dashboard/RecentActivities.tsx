@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type RecentActivity = {
   icon: string;
   iconColor: string;
@@ -13,14 +11,19 @@ type RecentActivitiesProps = {
   title?: string;
 };
 
-export default function RecentActivities({ activities, title = '최근 활동' }: RecentActivitiesProps) {
+export default function RecentActivities({
+  activities,
+  title = '최근 활동',
+}: RecentActivitiesProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">{title}</h2>
       <div className="space-y-4">
         {activities.map((activity, index) => (
           <div key={index} className="flex items-start space-x-3">
-            <div className={`flex-shrink-0 w-8 h-8 flex items-center justify-center ${activity.iconColor}`}>
+            <div
+              className={`flex-shrink-0 w-8 h-8 flex items-center justify-center ${activity.iconColor}`}
+            >
               <i className={`${activity.icon} text-lg`}></i>
             </div>
             <div className="flex-1 min-w-0">
@@ -38,5 +41,3 @@ export default function RecentActivities({ activities, title = '최근 활동' }
     </div>
   );
 }
-
-

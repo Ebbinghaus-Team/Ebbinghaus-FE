@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export type StudyRoom = {
@@ -23,9 +22,7 @@ function getProgressColor(progress: number) {
 
 export default function StudyRoomCard({ room }: StudyRoomCardProps) {
   const progress =
-    room.totalProblems > 0
-      ? Math.round((room.graduatedProblems / room.totalProblems) * 100)
-      : 0;
+    room.totalProblems > 0 ? Math.round((room.graduatedProblems / room.totalProblems) * 100) : 0;
 
   return (
     <Link to={`/personal-study/${room.studyRoomId}`}>
@@ -75,5 +72,3 @@ export default function StudyRoomCard({ room }: StudyRoomCardProps) {
     </Link>
   );
 }
-
-
