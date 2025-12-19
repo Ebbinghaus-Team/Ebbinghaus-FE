@@ -8,9 +8,7 @@ export function useAuthStatus() {
   const groupUnauthorized = group?.error?.status === 401;
 
   const isLoading = personal.isLoading || group.isLoading;
-  const isLoggedIn = !personalUnauthorized || !groupUnauthorized;
+  const isLoggedIn = !(personalUnauthorized || groupUnauthorized);
 
   return { isLoggedIn, isLoading };
 }
-
-
