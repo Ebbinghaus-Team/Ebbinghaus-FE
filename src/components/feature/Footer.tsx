@@ -12,9 +12,14 @@ export default function Footer() {
             <Link to="/team-info" className="hover:text-blue-600 transition-colors">
               팀 소개
             </Link>
-            <Link to="/contact" className="hover:text-blue-600 transition-colors">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSct80zWVwJ9gR3cyDCW7iWJQ2c7CZPe-tBDuWQ8TAulIEfggg/viewform?usp=publish-editor"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 transition-colors"
+            >
               문의하기
-            </Link>
+            </a>
             <a
               href="https://github.com/Ebbinghaus-Team"
               target="_blank"
