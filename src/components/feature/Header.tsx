@@ -102,10 +102,9 @@ export default function Header() {
             {isLoggedIn && (
               <>
                 <button
-                  onClick={() => navigate('/dashboard')}
                   className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300"
                   aria-label="프로필"
-                  title="내 대시보드"
+                  title="마이페이지 준비 중입니다"
                 >
                   <i className="ri-user-3-line text-gray-700 text-base"></i>
                 </button>
