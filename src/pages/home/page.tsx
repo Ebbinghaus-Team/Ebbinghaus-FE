@@ -41,9 +41,9 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">현재 학습의 문제점</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">기존 학습 방식의 한계</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              기존 학습 방식의 한계를 과학적 연구를 통해 분석했습니다
+              왜 열심히 공부해도 금방 잊어버릴까요?
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -114,8 +114,8 @@ export default function HomePage() {
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">메타인지 강화</h3>
                 <p className="text-gray-600 mb-4">
-                  García-García et al.(2014) 연구에 따르면, 문제 생성 과정은 메타인지를 강화하고
-                  자기 조절 능력을 향상시킵니다.
+                  문제를 직접 만드는 학습은 자신의 이해 수준을 점검하게 하여 메타인지를 자연스럽게
+                  키워줍니다.
                 </p>
                 <div className="text-sm text-blue-600 font-medium">
                   문제 생성 → 깊은 이해 → 장기 기억
@@ -161,7 +161,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">투스트라이크 복습</h3>
               <p className="text-gray-600">
-                1일 후, 7일 후 두 번만 맞히면 완전 학습 완료되는 시스템입니다
+                1일 후와 7일 후 두 번만 맞히면 완전 학습으로 이어지는 복습 시스템입니다
               </p>
             </div>
             <div className="text-center">
