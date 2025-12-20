@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-gray-500">© 2024 StudyLoop. All rights reserved.</p>
+          <p className="text-sm text-gray-500">© 2025 Ebbinghaus Team. All rights reserved.</p>
         </div>
       </div>
     </footer>
