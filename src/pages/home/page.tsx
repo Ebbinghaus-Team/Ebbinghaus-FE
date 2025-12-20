@@ -1,4 +1,15 @@
 import { Link } from 'react-router-dom';
+import {
+  ClockArrowUp,
+  Repeat,
+  RotateCcwSquare,
+  SquarePen,
+  Bot,
+  User,
+  Users,
+  ArrowRight,
+  Check,
+} from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -43,38 +54,42 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">기존 학습 방식의 한계</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              왜 열심히 공부해도 금방 잊어버릴까요?
+              지금의 공부 방식, 무엇이 문제일까요?
             </p>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-6 rounded-xl bg-red-50 border border-red-100">
               <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                <i className="ri-time-line text-2xl text-red-600"></i>
+                <ClockArrowUp className="w-7 h-7 text-red-600" strokeWidth={2} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">빠른 망각</h3>
               <p className="text-gray-600 text-sm">
                 1시간 후 50%, 하루 후 70%의 내용을 잊어버립니다
               </p>
             </div>
+
             <div className="text-center p-6 rounded-xl bg-red-50 border border-red-100">
               <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                <i className="ri-refresh-line text-2xl text-red-600"></i>
+                <RotateCcwSquare className="w-7 h-7 text-red-600" strokeWidth={2} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">비효율적 반복</h3>
               <p className="text-gray-600 text-sm">
                 체계적이지 않은 복습으로 같은 내용을 반복 학습합니다
               </p>
             </div>
+
             <div className="text-center p-6 rounded-xl bg-red-50 border border-red-100">
               <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                <i className="ri-question-line text-2xl text-red-600"></i>
+                <Bot className="w-7 h-7 text-red-600" strokeWidth={2} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">수동적 학습</h3>
               <p className="text-gray-600 text-sm">단순 암기 위주로 진정한 이해 없이 학습합니다</p>
             </div>
+
             <div className="text-center p-6 rounded-xl bg-red-50 border border-red-100">
               <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                <i className="ri-team-line text-2xl text-red-600"></i>
+                <User className="w-7 h-7 text-red-600" strokeWidth={2} />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">고립된 학습</h3>
               <p className="text-gray-600 text-sm">혼자 공부하며 동기부여와 지속성이 부족합니다</p>
@@ -135,11 +150,12 @@ export default function HomePage() {
               과학적 근거를 바탕으로 설계된 효과적인 학습 루프
             </p>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <div className="text-center">
               <div className="relative mb-6">
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-edit-line text-2xl text-white"></i>
+                  <SquarePen className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">1</span>
@@ -150,10 +166,11 @@ export default function HomePage() {
                 학습한 내용을 바탕으로 직접 문제를 만들어 메타인지를 강화합니다
               </p>
             </div>
+
             <div className="text-center">
               <div className="relative mb-6">
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-refresh-line text-2xl text-white"></i>
+                  <Repeat className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">2</span>
@@ -164,10 +181,11 @@ export default function HomePage() {
                 1일 후와 7일 후 두 번만 맞히면 완전 학습으로 이어지는 복습 시스템입니다
               </p>
             </div>
+
             <div className="text-center">
               <div className="relative mb-6">
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                  <i className="ri-team-line text-2xl text-white"></i>
+                  <Users className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
                 <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">3</span>
@@ -179,8 +197,10 @@ export default function HomePage() {
               </p>
             </div>
           </div>
+
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 text-center">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">투스트라이크 복습 시스템</h3>
+
             <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-6">
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -188,21 +208,26 @@ export default function HomePage() {
                 </div>
                 <span className="text-gray-700">1일 후 복습</span>
               </div>
-              <i className="ri-arrow-right-line text-gray-400 text-xl hidden md:block"></i>
+
+              <ArrowRight className="text-gray-400 w-6 h-6 hidden md:block" strokeWidth={2} />
+
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                   <span className="text-green-600 font-bold">2차</span>
                 </div>
                 <span className="text-gray-700">7일 후 복습</span>
               </div>
-              <i className="ri-arrow-right-line text-gray-400 text-xl hidden md:block"></i>
+
+              <ArrowRight className="text-gray-400 w-6 h-6 hidden md:block" strokeWidth={2} />
+
               <div className="flex items-center space-x-4">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                  <i className="ri-check-line text-blue-600 text-xl"></i>
+                  <Check className="w-6 h-6 text-blue-600" strokeWidth={3} />
                 </div>
                 <span className="text-gray-700">완전 학습</span>
               </div>
             </div>
+
             <p className="text-gray-600 mb-6">
               두 번만 맞히면 끝! 간단하고 명확한 규칙으로 장기 기억을 만들어보세요
             </p>
