@@ -28,7 +28,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <div className="text-2xl font-bold text-indigo-600">StudyLoop</div>
+              <div className="text-2xl font-bold text-blue-600">StudyLoop</div>
             </Link>
           </div>
 
