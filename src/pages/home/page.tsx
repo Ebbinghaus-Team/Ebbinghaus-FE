@@ -157,7 +157,7 @@ export default function HomePage() {
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
                   <SquarePen className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="absolute -top-2 -left-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">1</span>
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function HomePage() {
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
                   <Repeat className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="absolute -top-2 -left-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">2</span>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function HomePage() {
                 <div className="w-20 h-20 mx-auto bg-blue-600 rounded-full flex items-center justify-center mb-4">
                   <Users className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <div className="absolute -top-2 -left-2 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                   <span className="text-sm font-bold text-blue-600">3</span>
                 </div>
               </div>
