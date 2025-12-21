@@ -112,7 +112,7 @@ export default function HomePage() {
               <img
                 alt="망각곡선 연구"
                 className="w-full h-auto rounded-xl shadow-lg object-cover"
-                src="/assets/combating-the-forgetting-curve.png"
+                src="/assets/graph.png"
               />
             </div>
             <div className="space-y-8">
