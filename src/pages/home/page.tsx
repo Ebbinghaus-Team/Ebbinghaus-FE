@@ -10,12 +10,22 @@ import {
   ArrowRight,
   Check,
 } from 'lucide-react';
+import quizBoy from '../../assets/quizboy.png';
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+      <section className="relative bg-gradient-to-br from-blue-50 to-indigo-100 py-20 overflow-hidden">
+        <div className="hidden lg:block absolute right-[48px] bottom-[40px] pointer-events-none select-none">
+          <img
+            src={quizBoy}
+            alt="StudyLoop Mascot"
+            className="w-[325px] max-w-[38vw] h-auto"
+            draggable={false}
+          />
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-left">
@@ -26,11 +36,13 @@ export default function HomePage() {
                 <br />
                 전환하는 학습 루프
               </h1>
+
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
                 문제를 직접 만들고, 과학적 복습 주기로 반복 학습하여
                 <br />
                 진정한 이해와 장기 기억을 만들어보세요
               </p>
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/create">
                   <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 px-8 py-4 text-lg">
@@ -44,6 +56,7 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
+            <div className="hidden lg:block" />
           </div>
         </div>
       </section>
@@ -107,6 +120,7 @@ export default function HomePage() {
               에빙하우스 망각곡선과 메타인지 연구를 기반으로 한 학습 방법론
             </p>
           </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <img
@@ -115,6 +129,7 @@ export default function HomePage() {
                 src="/assets/graph.png"
               />
             </div>
+
             <div className="space-y-8">
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">에빙하우스 망각곡선</h3>
@@ -126,6 +141,7 @@ export default function HomePage() {
                   1일 → 3일 → 1주 → 2주 → 1개월
                 </div>
               </div>
+
               <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
                 <h3 className="text-xl font-semibold text-gray-900 mb-3">메타인지 강화</h3>
                 <p className="text-gray-600 mb-4">
@@ -242,6 +258,7 @@ export default function HomePage() {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             과학적으로 검증된 학습 방법으로 더 효과적인 공부를 시작하세요
           </p>
+
           <Link to="/create">
             <button className="inline-flex items-center justify-center font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer bg-white text-blue-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 px-8 py-4 text-lg">
               문제 만들기 시작하기
