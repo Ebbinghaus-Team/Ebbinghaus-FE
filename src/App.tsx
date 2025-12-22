@@ -52,7 +52,44 @@ function App() {
           </Routes>
         </Suspense>
       </BrowserRouter>
-      <Toaster />
+      <Toaster
+        position="top-center"
+        gutter={12}
+        toastOptions={{
+          duration: 2200,
+          style: {
+            padding: '12px 16px',
+            borderRadius: '14px',
+            background: '#ffffff',
+            color: '#0f172a',
+            fontSize: '14px',
+            fontWeight: 500,
+            border: '1px solid #e2e8f0',
+            boxShadow: '0 10px 20px -5px rgba(2,6,23,0.08), 0 4px 8px -4px rgba(2,6,23,0.08)',
+          },
+
+          success: {
+            iconTheme: {
+              primary: '#2563eb',
+              secondary: '#eff6ff',
+            },
+          },
+
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fef2f2',
+            },
+          },
+
+          loading: {
+            iconTheme: {
+              primary: '#2563eb',
+              secondary: '#eff6ff',
+            },
+          },
+        }}
+      />
     </QueryClientProvider>
   );
 }
